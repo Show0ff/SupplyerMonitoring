@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Create Task</title>
+</head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+
+<h1>Create New Task</h1>
+
+<form th:action="@{/create-task}" th:object="${newTask}" method="post">
+  <div>
+    <label for="text">Текст задачи:</label>
+    <input type="text" id="text" th:field="*{text}" required>
+  </div>
+  <div>
+    <label for="text">Дополнительная информация:</label>
+    <input type="text" id="extraInfo" th:field="*{extraInfo}" required>
+  </div>
+  <div>
+    <label for="taskStatus">Статус задачи:</label>
+    <select id="taskStatus" name="taskStatus" th:field="*{taskStatus}" required>
+      <option value="">Выберите статус задачи</option>
+      <option th:each="status : ${T(com.khlopin.SupplierMonitoring.entity.TaskStatus).values()}"
+              th:value="${status}" th:text="${status}"></option>
+    </select>
+  </div>
+<!--  <div>-->
+<!--    <label for="text">Dead Line</label>-->
+<!--    <input type="text" id="needToFinishTaskUntil" th:field="*{needToFinishTaskUntil}" required>-->
+<!--  </div>-->
+  <!-- Add input fields for other task properties -->
+  <button type="submit">Create Task</button>
+</form>
+</body>
+</html>

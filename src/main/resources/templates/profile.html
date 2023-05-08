@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Profile</title>
+</head>
+<body>
+
+<div th:replace="~{fragments/header :: header}"></div>
+
+<h1>Welcome, <span th:text="${user.userName}"></span>!</h1>
+<p>Your user ID: <span th:text="${user.id}"></span></p>
+<p>Your role: <span th:text="${user.role}"></span></p>
+</body>
+</html>

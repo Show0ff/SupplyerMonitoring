@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Project Board</title>
+    <link rel="stylesheet" href="../static/css/styles.css">
+</head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+
+<h1>Project Board</h1>
+<a th:href="@{/create-task}">Create New Task</a>
+<div class="board">
+    <div class="column" id="todo">
+        <h3>To-Do</h3>
+        <div class="task" th:id="${task.id}" th:each="task : ${tasks}" th:if="${task.taskStatus.name()} == 'TODO'">
+            <div class="task-text" th:text="${task.text}"></div>
+            <!-- Add other task details... -->
+        </div>
+    </div>
+    <div class="column" id="inprogress">
+        <h3>In Progress</h3>
+        <div class="task" th:id="${task.id}" th:each="task : ${tasks}" th:if="${task.taskStatus.name()} == 'IN_PROGRESS'">
+            <div class="task-text" th:text="${task.text}"></div>
+            <!-- Add other task details... -->
+        </div>
+    </div>
+    <div class="column" id="done">
+        <h3>Done</h3>
+        <div class="task" th:id="${task.id}" th:each="task : ${tasks}" th:if="${task.taskStatus.name()} == 'DONE'">
+            <div class="task-text" th:text="${task.text}"></div>
+            <!-- Add other task details... -->
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/static/js/project-board.js}"></script>
+</body>
+</html>

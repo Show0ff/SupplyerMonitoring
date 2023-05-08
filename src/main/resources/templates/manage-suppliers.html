@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Manage Suppliers</title>
+  <link rel="stylesheet" href="../static/css/styles.css">
+</head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+
+<h1>Manage Suppliers</h1>
+
+<h2>Create New Supplier</h2>
+<form th:action="@{/manage-suppliers}" th:object="${newSupplier}" method="post">
+  <div class="form-group">
+    <label for="name">Название:</label>
+    <input type="text" id="name" th:field="*{name}" required>
+  </div>
+  <div class="form-group">
+    <label for="price">Цена:</label>
+    <input type="text" id="price" th:field="*{price}" required>
+  </div>
+  <div class="form-group">
+    <label for="deliverySpeed">Скорость доставки:</label>
+    <input type="text" id="deliverySpeed" th:field="*{deliverySpeed}" required>
+  </div>
+  <div class="form-group">
+    <label for="rating">Рейтинг:</label>
+    <input type="text" id="rating" th:field="*{rating}" required>
+  </div>
+  <div class="form-group">
+    <label for="comment">Комментарий:</label>
+    <input type="text" id="comment" th:field="*{comment}" required>
+  </div>
+  <button type="submit">Create Supplier</button>
+</form>
+
+<h2>All Suppliers</h2>
+<table>
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>Имя</th>
+    <th>Цена</th>
+    <th>Скорость доставки:</th>
+    <th>Рейтинг</th>
+    <th>Комментарий</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="supplier : ${suppliers}">
+    <td th:text="${supplier.id}"></td>
+    <td th:text="${supplier.name}"></td>
+    <td th:text="${supplier.price}"></td>
+    <td th:text="${supplier.deliverySpeed}"></td>
+    <td th:text="${supplier.rating}"></td>
+    <td th:text="${supplier.comment}"></td>
+  </tr>
+  </tbody>
+</table>
+</body>
+</html>
