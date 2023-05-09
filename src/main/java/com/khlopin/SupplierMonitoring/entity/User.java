@@ -2,11 +2,14 @@ package com.khlopin.SupplierMonitoring.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 
 @Entity
 @Table(name = "users")
-@Data
+@Getter
+@Setter
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,9 +18,12 @@ public class User {
     private String userName;
     @Column(name = "password")
     private String password;
-    @Enumerated
-    private Role role = Role.GUEST;
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "project_id")
+    private Project project;
 
+    @Enumerated(value = EnumType.STRING)
+    private Role role = Role.GUEST;
 
 
 }

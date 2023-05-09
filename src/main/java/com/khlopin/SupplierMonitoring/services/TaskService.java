@@ -12,9 +12,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class TaskService {
-
     private final TaskRepository taskRepository;
-
     public List<Task> getAllTasks() {
         return (List<Task>) taskRepository.findAll();
     }

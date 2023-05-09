@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Управление пользователя</title>
+  <link rel="stylesheet" href="../static/css/styles.css">
+
+</head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+
+
+<h2>Управление пользователями</h2>
+
+<h3>Создать нового пользователя</h3>
+<form th:action="@{/admin/users}" th:object="${newUser}" method="post">
+  <div class="form-group">
+    <label for="userName">Имя пользователя:</label>
+    <input type="text" id="userName" th:field="*{userName}" required>
+  </div>
+  <div class="form-group">
+    <label for="password">Пароль:</label>
+    <input id="password" th:field="*{password}" required>
+  </div>
+  <div class="form-group">
+    <label for="role">Роль:</label>
+    <select id="role" th:field="*{role}">
+      <option th:each="role : ${roles}" th:value="${role}" th:text="${role}"></option>
+    </select>
+  </div>
+  <button type="submit">Создать пользователя</button>
+</form>
+
+<h3>Список всех пользователей: </h3>
+<table>
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>Имя пользователя</th>
+    <th>Роль</th>
+    <th>Действия</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="user : ${users}">
+    <td th:text="${user.id}"></td>
+    <td th:text="${user.userName}"></td>
+    <td th:text="${user.role}"></td>
+    <td>
+      <a th:href="@{/admin/users/{id}(id=${user.id})}">Изменить</a>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+
+</body>
+</html>

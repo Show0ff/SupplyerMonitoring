@@ -28,19 +28,19 @@ public class AuthController {
         boolean isRegistered = userService.createUser(user);
         if (isRegistered) {
             model.addAttribute("message", "User registered successfully!");
-            return "redirect:/login";
+            return "redirect:/";
         } else {
             model.addAttribute("error", "User already exists!");
             return "register";
         }
     }
 
-    @GetMapping("/login")
+    @GetMapping("/")
     public String showLoginForm() {
         return "login";
     }
 
-    @PostMapping("/login")
+    @PostMapping("/")
     public String loginUser(@RequestParam String userName, @RequestParam String password, Model model, HttpSession session) {
         Optional<User> user = userService.authUser(userName, password);
         if (user.isPresent()) {
@@ -48,7 +48,7 @@ public class AuthController {
             return "redirect:/profile";
         } else {
             model.addAttribute("error", "Invalid credentials!");
-            return "login";
+            return "/";
         }
     }
 
@@ -56,7 +56,7 @@ public class AuthController {
     public String showProfile(HttpSession session, Model model) {
         User currentUser = (User) session.getAttribute("user");
         if (currentUser == null) {
-            return "redirect:/login";
+            return "redirect:/";
         }
 
         model.addAttribute("user", currentUser);
@@ -66,7 +66,7 @@ public class AuthController {
     @GetMapping("/logout")
     public String logoutUser(HttpSession session) {
         session.removeAttribute("user");
-        return "redirect:/login";
+        return "redirect:/";
     }
 
 }

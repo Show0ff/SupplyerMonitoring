@@ -1,6 +1,8 @@
 package com.khlopin.SupplierMonitoring.controllers;
 
+import com.khlopin.SupplierMonitoring.entity.Project;
 import com.khlopin.SupplierMonitoring.entity.Task;
+import com.khlopin.SupplierMonitoring.services.ProjectService;
 import com.khlopin.SupplierMonitoring.services.TaskService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -13,6 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ProjectBoardController {
     private final TaskService taskService;
+    private final ProjectService projectService;
 
     @GetMapping("/project-board")
     public String showProjectBoard(Model model) {
@@ -29,8 +32,9 @@ public class ProjectBoardController {
     }
 
     @PostMapping("/create-task")
-    public String createTask(Task newTask) {
-        taskService.createTask(newTask);
+    public String createTask(Project project, Task newTask) {
+        Task task = taskService.createTask(newTask);
+        projectService.addTaskInProject(project, task);
         return "redirect:/project-board";
     }
 
