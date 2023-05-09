@@ -1,75 +1,95 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Login</title>
-    <link rel="stylesheet" href="../static/css/styles.css">
-
+    <title>Авторизация</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" type="image/png" href="/images/icons/favicon.ico"/>
-    <link rel="stylesheet" type="text/css" href="/static/js/vendor/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="/static/css/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="/static/css/fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
-    <link rel="stylesheet" type="text/css" href="/static/js/vendor/animate/animate.css">
-    <link rel="stylesheet" type="text/css" href="/static/js/vendor/css-hamburgers/hamburgers.min.css">
-    <link rel="stylesheet" type="text/css" href="/static/js/vendor/animsition/css/animsition.min.css">
-    <link rel="stylesheet" type="text/css" href="/static/js/vendor/select2/select2.min.css">
-    <link rel="stylesheet" type="text/css" href="/static/css/util.css">
-    <link rel="stylesheet" type="text/css" href="/static/css/main.css">
+
+    <!-- Font Awesome -->
+    <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+            rel="stylesheet"
+    />
+    <!-- Google Fonts -->
+    <link
+            href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+            rel="stylesheet"
+    />
+    <!-- MDB -->
+    <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.3.0/mdb.min.css"
+            rel="stylesheet"
+    />
 
 </head>
 <body>
-<div class="limiter">
-    <div class="container-login100">
-        <div class="wrap-login100">
-            <div class="login100-form-title" style="background-image: url(static/images/bg-01.jpg);">
-					<span class="login100-form-title-1">
-						Войти в систему
-					</span>
+
+<section class="vh-100">
+    <div class="container-fluid h-custom">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-md-9 col-lg-6 col-xl-5">
+                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
+                     class="img-fluid" alt="Sample image">
             </div>
+            <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+                <form th:action="@{/}" method="post">
 
-            <form class="login100-form validate-form" th:action="@{/}" method="post">
-                <div class="wrap-input100 validate-input m-b-26" data-validate="Username is required">
-                    <span class="label-input100">Логин</span>
-                    <input class="input100" type="text" name="userName" placeholder="Введите имя" required>
-                    <span class="focus-input100"></span>
-                </div>
-
-                <div class="wrap-input100 validate-input m-b-18" data-validate = "Password is required">
-                    <span class="label-input100">Пароль</span>
-                    <input class="input100" type="password" name="password" placeholder="Введите пароль" required>
-                    <span class="focus-input100"></span>
-                </div>
-
-                <div class="flex-sb-m w-full p-b-30">
-                    <div class="contact100-form-checkbox">
-                        <input class="input-checkbox100" id="ckb1" type="checkbox" name="remember-me">
-                        <label class="label-checkbox100" for="ckb1">
-                            Запомнить меня
-                        </label>
+                    <div class="divider d-flex align-items-center my-4">
+                        <p class="text-center fw-bold mx-3 mb-0">Авторизация</p>
                     </div>
 
-                </div>
+                    <!-- Email input -->
+                    <div class="form-outline mb-4">
+                        <input type="text" id="form3Example3" class="form-control form-control-lg"
+                               name="userName" placeholder="Введите имя пользователя" required/>
+                        <label class="form-label" for="form3Example3">Имя пользователя</label>
+                    </div>
 
-                <div class="container-login100-form-btn">
-                    <button class="login100-form-btn">
-                        Войти
-                    </button>
-                </div>
-            </form>
+                    <!-- Password input -->
+                    <div class="form-outline mb-3">
+                        <input type="password" id="form3Example4" class="form-control form-control-lg"
+                               name="password" placeholder="Введите пароль" required/>
+                        <label class="form-label" for="form3Example4">Пароль</label>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center">
+                        <!-- Checkbox -->
+                        <div class="form-check mb-0">
+                            <input class="form-check-input me-2" type="checkbox" value="" id="form2Example3"/>
+                            <label class="form-check-label" for="form2Example3">
+                                Запомнить меня
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="text-center text-lg-start mt-4 pt-2">
+                        <button class="btn btn-primary btn-lg"
+                                style="padding-left: 2.5rem; padding-right: 2.5rem;">Войти
+                        </button>
+                    </div>
+
+                </form>
+            </div>
         </div>
     </div>
-</div>
+    <div
+            class="d-flex flex-column flex-md-row text-center text-md-start justify-content-between py-4 px-4 px-xl-5 bg-primary">
+        <!-- Copyright -->
+        <div class="text-white mb-3 mb-md-0">
+            Copyright © 2020. All rights reserved.
+        </div>
+        <!-- Copyright -->
 
-<script th:src="@{/static/js/vendor/jquery/jquery-3.2.1.min.js}"></script>
-<script th:src="@{/static/js/vendor/animsition/js/animsition.min.js}"></script>
-<script th:src="@{/static/js/vendor/bootstrap/js/popper.js}"></script>
-<script th:src="@{/static/js/vendor/bootstrap/js/bootstrap.min.js}"></script>
-<script th:src="@{/static/js/vendor/select2/select2.min.js}"></script>
-<script th:src="@{/static/js/vendor/daterangepicker/moment.min.js}"></script>
-<script th:src="@{/static/js/vendor/daterangepicker/daterangepicker.js}"></script>
-<script th:src="@{/static/js/vendor/countdowntime/countdowntime.js}"></script>
-<script th:src="@{/static/js/main.js}"></script>
+    </div>
+</section>
+
+<script
+        type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.3.0/mdb.min.js"
+></script>
 
 </body>
 </html>
+
+
+
