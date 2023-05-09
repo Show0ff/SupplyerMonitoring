@@ -3,14 +3,34 @@
 <head>
   <title>Профиль</title>
   <link rel="stylesheet" href="../static/css/styles.css">
+  <!-- Font Awesome -->
+  <link
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+          rel="stylesheet"
+  />
+  <!-- Google Fonts -->
+  <link
+          href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+          rel="stylesheet"
+  />
+  <!-- MDB -->
+  <link
+          href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.3.0/mdb.min.css"
+          rel="stylesheet"
+  />
 
 </head>
 <body>
 
 <div th:replace="~{fragments/header :: header}"></div>
-
+<div class="container">
 <h1>Добро пожаловать, <span th:text="${user.userName}"></span>!</h1>
 <p>Твой ID: <span th:text="${user.id}"></span></p>
 <p>Твоя роль: <span th:text="${user.role}"></span></p>
+</div>
+<script
+        type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.3.0/mdb.min.js"
+></script>
 </body>
 </html>

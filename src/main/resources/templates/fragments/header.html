@@ -1,21 +1,78 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>Header</title>
-  <link rel="stylesheet" href="/static/css/styles.css">
+    <title>Header</title>
+
+    <!-- Font Awesome -->
+    <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+            rel="stylesheet"
+    />
+    <!-- Google Fonts -->
+    <link
+            href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+            rel="stylesheet"
+    />
+    <!-- MDB -->
+    <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.3.0/mdb.min.css"
+            rel="stylesheet"
+    />
 </head>
 <body>
 <header>
-  <nav>
-    <ul>
-      <li><a th:href="@{/profile}" class="active">Профиль</a></li>
-      <li><a th:href="@{/manage-suppliers}">Управление поставщиками</a></li>
-      <li><a th:href="@{/manage-projects}">Управление проектом</a></li>
-      <li><a th:href="@{/admin/users}">Управление пользователями</a></li>
-      <li><a th:href="@{/project-board}">Доска с задачами</a></li>
-      <li><a th:href="@{/logout}">Выйти</a></li>
-    </ul>
-  </nav>
+    <nav class="navbar navbar-expand-lg navbar-light bg-primary text-light shadow-1">
+        <!-- Container wrapper -->
+        <div class="container-fluid">
+            <!-- Toggle button -->
+            <button
+                    class="navbar-toggler"
+                    type="button"
+                    data-mdb-toggle="collapse"
+                    data-mdb-target="#navbarCenteredExample"
+                    aria-controls="navbarCenteredExample"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+            >
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <!-- Collapsible wrapper -->
+            <div
+                    class="collapse navbar-collapse justify-content-center"
+                    id="navbarCenteredExample"
+            >
+                <!-- Left links -->
+                <ul class="navbar-nav mb-2 mb-lg-0" >
+                    <li class="nav-item">
+                        <a class="nav-link text-light" th:href="@{/profile}">Профиль</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-light" th:href="@{/manage-suppliers}">Управление поставщиками</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-light" th:href="@{/manage-projects}">Управление проектами</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-light" th:href="@{/admin/users}">Управление пользователями</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-light" th:href="@{/project-board}">Доска с задачами</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-light" th:href="@{/logout}">Выйти</a>
+                    </li>
+                </ul>
+                <!-- Left links -->
+            </div>
+            <!-- Collapsible wrapper -->
+        </div>
+        <!-- Container wrapper -->
+    </nav>
 </header>
+<script
+        type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.3.0/mdb.min.js"
+></script>
 </body>
 </html>

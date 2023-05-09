@@ -3,13 +3,29 @@
 <head>
   <title>Edit User</title>
   <<base href="/" />
-  <link rel="stylesheet" href="/static/css/styles.css">
+  <!-- Font Awesome -->
+  <link
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+          rel="stylesheet"
+  />
+  <!-- Google Fonts -->
+  <link
+          href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+          rel="stylesheet"
+  />
+  <!-- MDB -->
+  <link
+          href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.3.0/mdb.min.css"
+          rel="stylesheet"
+  />
 </head>
 <body>
 <div th:replace="~{fragments/header :: header}"></div>
-
-<h1>Изменение данных пользователя</h1>
-
+<hr class="hr"/>
+<div style="text-align: center">
+  <h1>Изменить данные пользователя</h1>
+</div>
+<hr class="hr"/>
 <form th:action="@{/admin/users/{userId}(userId=${user.id})}" th:object="${user}" method="post">
   <div>
     <label for="username">Имя пользователя:</label>
@@ -24,8 +40,13 @@
   </div>
 
   <div>
-    <button type="submit">Обновить</button>
+    <button class="btn btn-primary shadow-1" type="submit">Обновить</button>
   </div>
 </form>
+
+<script
+        type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.3.0/mdb.min.js"
+></script>
 </body>
 </html>

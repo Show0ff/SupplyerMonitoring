@@ -1,108 +1,133 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>Управление проектами</title>
-  <link rel="stylesheet" href="../static/css/styles.css">
-  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <title>Управление проектами</title>
+
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+            rel="stylesheet"
+    />
+    <!-- Google Fonts -->
+    <link
+            href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+            rel="stylesheet"
+    />
+    <!-- MDB -->
+    <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.3.0/mdb.min.css"
+            rel="stylesheet"
+    />
 </head>
 <body>
+
 <div th:replace="~{fragments/header :: header}"></div>
-
-<h1>Управление проектами</h1>
-
-<h2>Создать новый проект</h2>
-<form th:action="@{/manage-projects}" th:object="${newProject}" method="post">
-  <div class="form-group">
-    <label for="name">Название:</label>
-    <input type="text" id="name" th:field="*{projectName}" required>
-  </div>
-
-  <button type="submit">Create Project</button>
-</form>
-
-<h2>Добавить или удалить пользователя из проекта</h2>
-<form th:action="@{/addUserInProject}" method="post">
-  <div class="form-group">
-    <label for="project">Проект:</label>
-    <select id="project" name="projectId">
-      <option th:each="project : ${projects}" th:value="${project.id}" th:text="${project.projectName}"></option>
-    </select>
-  </div>
-  <div class="form-group">
-    <label for="user">Пользователь:</label>
-    <select id="user" name="userId">
-      <option th:each="user : ${users}" th:value="${user.id}" th:text="${user.userName}"></option>
-    </select>
-  </div>
-  <div class="form-group">
-    <label for="action">Действие:</label>
-    <select id="action" name="action">
-      <option value="add">Добавить</option>
-      <option value="remove">Удалить</option>
-    </select>
-  </div>
-
-  <button type="submit">Применить</button>
-</form>
-
-
-
-<h2>Участники проекта: </h2>
-<table>
-  <thead>
-  <tr>
-    <th>ID</th>
-    <th>Название</th>
-    <th></th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr th:each="project : ${projects}">
-    <td th:text="${project.id}"></td>
-    <td th:text="${project.projectName}"></td>
-    <td>
-      <!-- Modal Trigger -->
-      <button type="button" class="btn btn-primary" data-toggle="modal" th:attr="data-target='#modal'+${project.id}">Показать дополнительную информацию</button>
-
-      <!-- Modal -->
-      <div class="modal fade" th:id="'modal'+${project.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Информация о проекте</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <p>Название проекта: <span th:text="${project.projectName}"></span></p>
-              <p>Общее количество участников: <span th:text="${project.usersList.size()}"></span></p>
-              <p>Список участников:</p>
-              <ul>
-                <li th:each="user : ${project.usersList}">
-                  <span th:text="${user.userName}"></span> (<span th:text="${user.role}"></span>)
-                </li>
-              </ul>
-            </div>
-
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
-            </div>
-          </div>
+<hr class="hr"/>
+<div class="container">
+    <div style="text-align: center">
+        <h1>Управление проектами</h1>
+    </div>
+    <hr class="hr"/>
+    <h2>Создать новый проект</h2>
+    <form th:action="@{/manage-projects}" th:object="${newProject}" method="post">
+        <div class="form-group">
+            <label for="name">Название:</label>
+            <input type="text" id="name" th:field="*{projectName}" required>
         </div>
-      </div>
-    </td>
-  </tr>
-  </tbody>
-</table>
 
-<!-- Include Bootstrap JavaScript and jQuery -->
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+        <button class="btn btn-primary shadow-1" type="submit">Создать новый проект</button>
+    </form>
+    <hr class="hr"/>
+    <h2>Добавить или удалить пользователя из проекта</h2>
+    <form th:action="@{/addUserInProject}" method="post">
+        <div class="form-group">
+            <label for="project">Проект:</label>
+            <select id="project" name="projectId">
+                <option th:each="project : ${projects}" th:value="${project.id}"
+                        th:text="${project.projectName}"></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="user">Пользователь:</label>
+            <select id="user" name="userId">
+                <option th:each="user : ${users}" th:value="${user.id}" th:text="${user.userName}"></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="action">Действие:</label>
+            <select id="action" name="action">
+                <option value="add">Добавить</option>
+                <option value="remove">Удалить</option>
+            </select>
+        </div>
 
+        <button class="btn btn-primary shadow-0" type="submit">Применить</button>
+    </form>
+    <hr class="hr"/>
+    <h2>Участники проекта: </h2>
+    <table class="table">
+        <thead class="table-primary">
+        <tr>
+            <th>ID</th>
+            <th>Название</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="project : ${projects}">
+            <td th:text="${project.id}"></td>
+            <td th:text="${project.projectName}"></td>
+            <td>
+                <!-- Modal Trigger -->
+                <button type="button" class="btn btn-outline-primary" data-mdb-ripple-color="dark" data-toggle="modal"
+                        th:attr="data-target='#modal'+${project.id}">Показать дополнительную информацию
+                </button>
 
+                <!-- Modal -->
+                <div class="modal fade" th:id="'modal'+${project.id}" tabindex="-1" role="dialog"
+                     aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Информация о проекте</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Название проекта: <span th:text="${project.projectName}"></span></p>
+                                <p>Общее количество участников: <span th:text="${project.usersList.size()}"></span></p>
+                                <p>Список участников:</p>
+                                <ul>
+                                    <li th:each="user : ${project.usersList}">
+                                        <span th:text="${user.userName}"></span> (<span th:text="${user.role}"></span>)
+                                    </li>
+                                </ul>
+                            </div>
 
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-outline-primary" data-mdb-ripple-color="dark"
+                                        data-dismiss="modal">Закрыть
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 
+    <!-- Include Bootstrap JavaScript and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script
+            type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.3.0/mdb.min.js"
+    ></script>
+
+</div>
 </body>
 </html>
 
