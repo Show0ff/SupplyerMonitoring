@@ -1,6 +1,27 @@
 /* Шрифты */
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
 
+@font-face {
+    font-family: Poppins-Regular;
+    src: url('fonts/poppins/Poppins-Regular.ttf');
+}
+
+@font-face {
+    font-family: Poppins-Medium;
+    src: url('fonts/poppins/Poppins-Medium.ttf');
+}
+
+@font-face {
+    font-family: Poppins-Bold;
+    src: url('fonts/poppins/Poppins-Bold.ttf');
+}
+
+@font-face {
+    font-family: Poppins-SemiBold;
+    src: url('fonts/poppins/Poppins-SemiBold.ttf');
+}
+
+
 .board {
     display: flex;
     gap: 1rem;
@@ -33,7 +54,7 @@ header {
     background-color: #fff;
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
     padding: 1rem;
-    text-align: center; /* добавлено для центрирования */
+    text-align: center;
 }
 
 nav ul {
@@ -71,7 +92,7 @@ nav a:hover {
 body {
     margin: 0;
     padding: 0;
-    font-family: 'Roboto', sans-serif;
+    font-family: Poppins-Regular, sans-serif;
 }
 
 /* Стиль заголовков */
@@ -155,22 +176,4 @@ td:last-child {
     border-right: none;
 }
 
-/* Стиль заголовка таблицы на мобильных устройствах */
-@media (max-width: 767px) {
-    table {
-        display: block;
-        overflow-x: auto;
-        white-space: nowrap;
-    }
 
-    th,
-    td {
-        display: inline-block;
-        width: 100px;
-    }
-
-    th:not(:first-child),
-    td:not(:first-child) {
-        text-align: center;
-    }
-}

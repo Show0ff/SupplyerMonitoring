@@ -8,23 +8,23 @@
 <body>
 <div th:replace="~{fragments/header :: header}"></div>
 
-<h1>Edit User</h1>
+<h1>Изменение данных пользователя</h1>
 
 <form th:action="@{/admin/users/{userId}(userId=${user.id})}" th:object="${user}" method="post">
   <div>
-    <label for="username">Username:</label>
+    <label for="username">Имя пользователя:</label>
     <input type="text" th:field="*{userName}" id="username" required>
   </div>
 
   <div>
-    <label for="role">Role:</label>
+    <label for="role">Роль:</label>
     <select th:field="*{role}" id="role">
       <option th:each="role : ${roles}" th:value="${role}" th:text="${role}"></option>
     </select>
   </div>
 
   <div>
-    <button type="submit">Update</button>
+    <button type="submit">Обновить</button>
   </div>
 </form>
 </body>

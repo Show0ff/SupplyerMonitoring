@@ -4,21 +4,72 @@
     <title>Login</title>
     <link rel="stylesheet" href="../static/css/styles.css">
 
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/png" href="/images/icons/favicon.ico"/>
+    <link rel="stylesheet" type="text/css" href="/static/js/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/js/vendor/animate/animate.css">
+    <link rel="stylesheet" type="text/css" href="/static/js/vendor/css-hamburgers/hamburgers.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/js/vendor/animsition/css/animsition.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/js/vendor/select2/select2.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/util.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/main.css">
+
 </head>
 <body>
-<h1>Login</h1>
-<form th:action="@{/}" method="post">
-    <div>
-        <label for="userName">Username:</label>
-        <input type="text" id="userName" name="userName" required>
+<div class="limiter">
+    <div class="container-login100">
+        <div class="wrap-login100">
+            <div class="login100-form-title" style="background-image: url(static/images/bg-01.jpg);">
+					<span class="login100-form-title-1">
+						Войти в систему
+					</span>
+            </div>
+
+            <form class="login100-form validate-form" th:action="@{/}" method="post">
+                <div class="wrap-input100 validate-input m-b-26" data-validate="Username is required">
+                    <span class="label-input100">Логин</span>
+                    <input class="input100" type="text" name="userName" placeholder="Введите имя" required>
+                    <span class="focus-input100"></span>
+                </div>
+
+                <div class="wrap-input100 validate-input m-b-18" data-validate = "Password is required">
+                    <span class="label-input100">Пароль</span>
+                    <input class="input100" type="password" name="password" placeholder="Введите пароль" required>
+                    <span class="focus-input100"></span>
+                </div>
+
+                <div class="flex-sb-m w-full p-b-30">
+                    <div class="contact100-form-checkbox">
+                        <input class="input-checkbox100" id="ckb1" type="checkbox" name="remember-me">
+                        <label class="label-checkbox100" for="ckb1">
+                            Запомнить меня
+                        </label>
+                    </div>
+
+                </div>
+
+                <div class="container-login100-form-btn">
+                    <button class="login100-form-btn">
+                        Войти
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
-    <div>
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
-    </div>
-    <button type="submit">Login</button>
-</form>
-<p th:if="${error}" th:text="${error}"></p>
-<a href="register">Создать аккаунт</a>
+</div>
+
+<script th:src="@{/static/js/vendor/jquery/jquery-3.2.1.min.js}"></script>
+<script th:src="@{/static/js/vendor/animsition/js/animsition.min.js}"></script>
+<script th:src="@{/static/js/vendor/bootstrap/js/popper.js}"></script>
+<script th:src="@{/static/js/vendor/bootstrap/js/bootstrap.min.js}"></script>
+<script th:src="@{/static/js/vendor/select2/select2.min.js}"></script>
+<script th:src="@{/static/js/vendor/daterangepicker/moment.min.js}"></script>
+<script th:src="@{/static/js/vendor/daterangepicker/daterangepicker.js}"></script>
+<script th:src="@{/static/js/vendor/countdowntime/countdowntime.js}"></script>
+<script th:src="@{/static/js/main.js}"></script>
+
 </body>
 </html>

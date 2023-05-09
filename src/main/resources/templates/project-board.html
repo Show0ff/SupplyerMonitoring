@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Project Board</title>
+    <title>Доска с задачами проекта</title>
     <link rel="stylesheet" href="../static/css/styles.css">
 </head>
 <body>
 <div th:replace="~{fragments/header :: header}"></div>
 
 
-<h1>Project Board</h1>
-<a th:href="@{/create-task}">Create New Task</a>
+<h1>Доска с задачами проекта</h1>
+<a th:href="@{/create-task}">Создать новую задачу</a>
 <div class="board">
     <div class="column" id="todo">
         <h3>To-Do</h3>

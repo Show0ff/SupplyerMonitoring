@@ -2,13 +2,13 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <title>Header</title>
-  <link rel="stylesheet" href="../static/css/styles.css">
+  <link rel="stylesheet" href="/static/css/styles.css">
 </head>
 <body>
 <header>
   <nav>
     <ul>
-      <li><a th:href="@{/profile}">Профиль</a></li>
+      <li><a th:href="@{/profile}" class="active">Профиль</a></li>
       <li><a th:href="@{/manage-suppliers}">Управление поставщиками</a></li>
       <li><a th:href="@{/manage-projects}">Управление проектом</a></li>
       <li><a th:href="@{/admin/users}">Управление пользователями</a></li>

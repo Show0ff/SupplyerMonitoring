@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>Profile</title>
+  <title>Профиль</title>
   <link rel="stylesheet" href="../static/css/styles.css">
 
 </head>
@@ -9,8 +9,8 @@
 
 <div th:replace="~{fragments/header :: header}"></div>
 
-<h1>Welcome, <span th:text="${user.userName}"></span>!</h1>
-<p>Your user ID: <span th:text="${user.id}"></span></p>
-<p>Your role: <span th:text="${user.role}"></span></p>
+<h1>Добро пожаловать, <span th:text="${user.userName}"></span>!</h1>
+<p>Твой ID: <span th:text="${user.id}"></span></p>
+<p>Твоя роль: <span th:text="${user.role}"></span></p>
 </body>
 </html>

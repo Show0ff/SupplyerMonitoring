@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>Manage Suppliers</title>
+  <title>Управление поставщиками</title>
   <link rel="stylesheet" href="../static/css/styles.css">
+
 </head>
 <body>
 <div th:replace="~{fragments/header :: header}"></div>
 
-<h1>Manage Suppliers</h1>
+<h1>Управление поставщиками</h1>
 
-<h2>Create New Supplier</h2>
+<h2>Создать нового поставщика</h2>
 <form th:action="@{/manage-suppliers}" th:object="${newSupplier}" method="post">
   <div class="form-group">
     <label for="name">Название:</label>
@@ -31,10 +32,10 @@
     <label for="comment">Комментарий:</label>
     <input type="text" id="comment" th:field="*{comment}" required>
   </div>
-  <button type="submit">Create Supplier</button>
+  <button type="submit">Добавить поставщика</button>
 </form>
 
-<h2>All Suppliers</h2>
+<h2>Список всех поставщиков</h2>
 <table>
   <thead>
   <tr>
