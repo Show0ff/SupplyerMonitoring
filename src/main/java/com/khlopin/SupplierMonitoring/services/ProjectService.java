@@ -2,6 +2,7 @@ package com.khlopin.SupplierMonitoring.services;
 
 import com.khlopin.SupplierMonitoring.entity.*;
 import com.khlopin.SupplierMonitoring.services.repositories.ProjectRepository;
+import com.khlopin.SupplierMonitoring.services.repositories.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
@@ -19,6 +20,8 @@ import java.util.stream.Collectors;
 public class ProjectService {
     @Autowired
     private ProjectRepository projectRepository;
+    @Autowired
+    private UserRepository userRepository;
     private static final Logger log = LogManager.getLogger(ProjectService.class);
 
     @Transactional
@@ -52,8 +55,13 @@ public class ProjectService {
     }
 
     public void addUserToProject(Project project, User user) {
-        project.getUsersList().add(user);
-        projectRepository.save(project);
+        User userFromDB = userRepository.findByUserName(user.getUserName()).orElse(null);
+        project.getUsersList().add(userFromDB);
+        if (userFromDB != null) {
+            userFromDB.setProject(project);
+            projectRepository.save(project);
+        }
+
     }
 
 

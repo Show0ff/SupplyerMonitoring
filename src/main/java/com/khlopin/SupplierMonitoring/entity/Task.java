@@ -12,13 +12,14 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "worker_id")
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private User worker;
 
-    @ManyToOne
-    @JoinColumn(name = "manager_id")
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private User manager;
+
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Project project;
 
     @Column(name = "text")
     private String text;

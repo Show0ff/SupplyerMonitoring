@@ -18,7 +18,6 @@ public class Project {
     @Column(name = "projectName")
     private String projectName;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "taskList")
     private List<Task> taskList = new ArrayList<>();
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<User> usersList = new ArrayList<>();

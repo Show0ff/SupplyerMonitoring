@@ -2,8 +2,10 @@ package com.khlopin.SupplierMonitoring.controllers;
 
 import com.khlopin.SupplierMonitoring.entity.Project;
 import com.khlopin.SupplierMonitoring.entity.Task;
+import com.khlopin.SupplierMonitoring.entity.User;
 import com.khlopin.SupplierMonitoring.services.ProjectService;
 import com.khlopin.SupplierMonitoring.services.TaskService;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,13 +34,11 @@ public class ProjectBoardController {
     }
 
     @PostMapping("/create-task")
-    public String createTask(Project project, Task newTask) {
-        Task task = taskService.createTask(newTask);
+    public String createTask(Project project, Task newTask, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        Task task = taskService.createTask(newTask,user);
         projectService.addTaskInProject(project, task);
         return "redirect:/project-board";
     }
-
-
-
 
 }

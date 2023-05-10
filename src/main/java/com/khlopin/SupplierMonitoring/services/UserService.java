@@ -26,7 +26,7 @@ public class UserService {
         if (existingUser.isPresent()) {
             return false;
         }
-
+        user.setCorpId(createCorpID());
         log.info("new user was saved" + user);
         userRepository.save(user);
 
@@ -72,6 +72,13 @@ public class UserService {
             return null;
         }
     }
+
+    private Integer createCorpID() {
+        int randomNumber = (int) (Math.random() * 1000000);
+        String corpIDString = String.format("%06d", randomNumber);
+        return Integer.parseInt(corpIDString);
+    }
+
 
 
 
