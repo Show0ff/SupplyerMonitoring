@@ -27,9 +27,22 @@
     <h2 >Доска с задачами проекта</h2>
 </div>
 <hr class="hr"/>
+
+<!-- Add a dropdown to select a project -->
+<div>
+    <label for="projectSelect">Выберите проект:</label>
+    <select id="projectSelect" name="projectSelect" onchange="location = this.value;">
+        <option value="" selected>Выберите проект</option>
+        <option th:each="project : ${projects}" th:value="@{/project-board(projectId=${project.id})}" th:text="${project.projectName}"></option>
+    </select>
+</div>
+<hr class="hr"/>
+
 <a th:href="@{/create-task}">Создать новую задачу</a>
 <hr class="hr"/>
-<div class="board">
+
+<!-- Display the board only if a project is selected -->
+<div th:if="${!#lists.isEmpty(tasks)}" class="board">
     <div class="column" id="todo">
         <h3>To-Do</h3>
         <div class="task" th:id="${task.id}" th:each="task : ${tasks}" th:if="${task.taskStatus.name()} == 'TODO'">

@@ -25,19 +25,22 @@ public class ProjectService {
     private static final Logger log = LogManager.getLogger(ProjectService.class);
 
     @Transactional
-    public Project addTaskInProject(Project project, Task task) {
+    public void addTaskInProject(Project project, Task task) {
         List<Task> taskList = project.getTaskList();
         if (taskList == null) {
             taskList = new ArrayList<>();
+            project.setTaskList(taskList);
         }
+        task.setProject(project);
         taskList.add(task);
-        projectRepository.updateTaskList(project.getId(), taskList);
-        return project;
+        projectRepository.save(project);
     }
 
 
-    public Project createProject(Project project) {
-        return projectRepository.save(project);
+
+
+    public void createProject(Project project) {
+        projectRepository.save(project);
     }
 
     public List<Project> getAllProjects() {

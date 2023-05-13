@@ -23,7 +23,7 @@
 <div th:replace="~{fragments/header :: header}"></div>
 <hr class="hr"/>
 <div style="text-align: center">
-  <h1>Управление проектами</h1>
+  <h1>Управление задачами</h1>
 </div>
 <hr class="hr"/>
 <form th:action="@{/create-task}" th:object="${newTask}" method="post">
@@ -43,11 +43,14 @@
               th:value="${status}" th:text="${status}"></option>
     </select>
   </div>
-<!--  <div>-->
-<!--    <label for="text">Dead Line</label>-->
-<!--    <input type="text" id="needToFinishTaskUntil" th:field="*{needToFinishTaskUntil}" required>-->
-<!--  </div>-->
-  <!-- Add input fields for other task properties -->
+  <div>
+    <label for="projectId">Проект:</label>
+    <select id="projectId" name="projectId" required>
+      <option value="">Выберите проект</option>
+      <option th:each="project : ${projects}" th:value="${project.id}" th:text="${project.projectName}"></option>
+    </select>
+  </div>
+
   <button class="btn btn-primary shadow-1" type="submit">Создать задачу</button>
 </form>
 <script

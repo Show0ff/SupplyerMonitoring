@@ -20,25 +20,49 @@ public class ProjectBoardController {
     private final ProjectService projectService;
 
     @GetMapping("/project-board")
-    public String showProjectBoard(Model model) {
-        List<Task> tasks = taskService.getAllTasks();
+    public String showProjectBoard(@RequestParam(required = false) Long projectId, Model model) {
+        List<Task> tasks;
+        if (projectId == null) {
+            tasks = null;
+        } else {
+            tasks = taskService.getTasksByProjectId(projectId);
+        }
         model.addAttribute("tasks", tasks);
+        model.addAttribute("projects", projectService.getAllProjects());
         return "project-board";
     }
+
+
+
+
+
 
 
     @GetMapping("/create-task")
     public String showCreateTaskForm(Model model) {
         model.addAttribute("newTask", new Task());
+        model.addAttribute("projects", projectService.getAllProjects());
         return "create-task";
     }
 
+
+
     @PostMapping("/create-task")
-    public String createTask(Project project, Task newTask, HttpSession session) {
+    public String createTask(@ModelAttribute Task newTask, @RequestParam Long projectId, HttpSession session) {
         User user = (User) session.getAttribute("user");
-        Task task = taskService.createTask(newTask,user);
-        projectService.addTaskInProject(project, task);
+        Project project = projectService.getProjectById(projectId);
+        if (project == null) {
+            // handle error, project not found
+        } else {
+            taskService.createTask(newTask, user, project);
+        }
         return "redirect:/project-board";
     }
+
+
+
+
+
+
 
 }
