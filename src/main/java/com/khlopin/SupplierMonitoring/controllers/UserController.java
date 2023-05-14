@@ -24,6 +24,7 @@ public class UserController {
         return "manage-users";
     }
 
+
     @PostMapping("/users")
     public String createUser(@ModelAttribute User newUser) {
         userService.createUser(newUser);

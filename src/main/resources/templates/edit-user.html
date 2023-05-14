@@ -28,8 +28,20 @@
 <hr class="hr"/>
 <form th:action="@{/admin/users/{userId}(userId=${user.id})}" th:object="${user}" method="post">
   <div>
-    <label for="username">Имя пользователя:</label>
-    <input type="text" th:field="*{userName}" id="username" required>
+    <label for="login">Логин</label>
+    <input type="text" th:field="*{login}" id="login" required>
+  </div>
+  <div>
+    <label for="firstName">Имя</label>
+    <input type="text" th:field="*{firstName}" id="firstName" required>
+  </div>
+  <div>
+    <label for="surname">Фамилия</label>
+    <input type="text" th:field="*{surname}" id="surname" required>
+  </div>
+  <div>
+    <label for="patronymic">Отчество</label>
+    <input type="text" th:field="*{patronymic}" id="patronymic">
   </div>
 
   <div>

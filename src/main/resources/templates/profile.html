@@ -24,7 +24,7 @@
 
 <div th:replace="~{fragments/header :: header}"></div>
 <div class="container">
-  <h1>Добро пожаловать, <span th:text="${user.userName}"></span>!</h1>
+  <h1>Добро пожаловать, <span th:text="${user.getLogin}"></span>!</h1>
   <p>Твой ID: <span th:text="${user.id}"></span></p>
   <p>Твоя роль: <span th:text="${user.role}"></span></p>
   <p>Твоя корпоративный ID: <span th:text="${user.corpId}"></span></p>

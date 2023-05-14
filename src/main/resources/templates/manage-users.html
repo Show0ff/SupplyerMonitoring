@@ -30,8 +30,20 @@
     <h2>Создать нового пользователя</h2>
     <form th:action="@{/admin/users}" th:object="${newUser}" method="post">
         <div class="form-group">
-            <label for="userName">Имя пользователя:</label>
-            <input type="text" id="userName" th:field="*{userName}" required>
+            <label for="login">Логин:</label>
+            <input type="text" id="login" th:field="*{login}" required>
+        </div>
+        <div class="form-group">
+            <label for="name">Имя:</label>
+            <input type="text" id="name" th:field="*{firstName}" required>
+        </div>
+        <div class="form-group">
+            <label for="surname">Фамилия:</label>
+            <input type="text" id="surname" th:field="*{surname}" required>
+        </div>
+        <div class="form-group">
+            <label for="patronymic">Отчество:</label>
+            <input type="text" id="patronymic" th:field="*{patronymic}">
         </div>
         <div class="form-group">
             <label for="password">Пароль:</label>
@@ -59,10 +71,46 @@
         <tbody>
         <tr th:each="user : ${users}">
             <td th:text="${user.id}"></td>
-            <td th:text="${user.userName}"></td>
+            <td th:text="${user.login}"></td>
             <td th:text="${user.role}"></td>
             <td>
-                <a th:href="@{/admin/users/{id}(id=${user.id})}">Изменить</a>
+                <a th:href="@{/admin/users/{id}(id=${user.id})}">
+                    <button type="button" class="btn btn-outline-primary" data-mdb-ripple-color="dark">Изменить</button>
+                </a>
+
+                <!-- Modal Trigger -->
+                <button type="button" class="btn btn-outline-primary" data-mdb-ripple-color="dark" data-toggle="modal"
+                        th:attr="data-target='#modal'+${user.id}">Показать дополнительную информацию
+                </button>
+
+                <!-- Modal -->
+                <div class="modal fade" th:id="'modal'+${user.id}" tabindex="-1" role="dialog"
+                     aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Информация о сотруднике</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Логин: <span th:text="${user.login}"></span></p>
+                                <p>Имя: <span th:text="${user.firstName}"></span></p>
+                                <p>Фамилия: <span th:text="${user.surname}"></span></p>
+                                <p>Отчество: <span th:text="${user.patronymic}"></span></p>
+                                <p>Проект: <span th:text="${user.project}"></span></p>
+                                <p>Список задач: <span th:text="${user.manageTasks}"></span></p>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-outline-primary" data-mdb-ripple-color="dark"
+                                        data-dismiss="modal">Закрыть
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </td>
         </tr>
         </tbody>
@@ -72,6 +120,9 @@
         type="text/javascript"
         src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.3.0/mdb.min.js"
 ></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
 </body>
 </html>

@@ -34,18 +34,12 @@ public class ProjectBoardController {
 
 
 
-
-
-
-
     @GetMapping("/create-task")
     public String showCreateTaskForm(Model model) {
         model.addAttribute("newTask", new Task());
         model.addAttribute("projects", projectService.getAllProjects());
         return "create-task";
     }
-
-
 
     @PostMapping("/create-task")
     public String createTask(@ModelAttribute Task newTask, @RequestParam Long projectId, HttpSession session) {
@@ -58,11 +52,5 @@ public class ProjectBoardController {
         }
         return "redirect:/project-board";
     }
-
-
-
-
-
-
 
 }

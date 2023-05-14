@@ -22,7 +22,7 @@ public class UserService {
     private static final Logger log = LogManager.getLogger(UserService.class);
 
     public boolean createUser(User user) {
-        Optional<User> existingUser = userRepository.findByUserName(user.getUserName());
+        Optional<User> existingUser = userRepository.findUserByLogin(user.getLogin());
         if (existingUser.isPresent()) {
             return false;
         }
@@ -33,8 +33,8 @@ public class UserService {
         return true;
     }
 
-    public Optional<User> authUser(String userName, String password) {
-        Optional<User> existingUser = userRepository.findByUserName(userName);
+    public Optional<User> authUser(String login, String password) {
+        Optional<User> existingUser = userRepository.findUserByLogin(login);
         if (existingUser.isPresent()) {
             if (password.equals(existingUser.get().getPassword())) {
                 log.info("user has been auth " + existingUser.get());
@@ -62,7 +62,7 @@ public class UserService {
         Optional<User> existingUser = userRepository.findById(id);
         if (existingUser.isPresent()) {
             User user = existingUser.get();
-            user.setUserName(updatedUser.getUserName());
+            user.setLogin(updatedUser.getLogin());
             user.setPassword(updatedUser.getPassword());
             user.setRole(updatedUser.getRole());
             log.info("User with id " + id + " was updated");

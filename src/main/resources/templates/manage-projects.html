@@ -51,7 +51,7 @@
         <div class="form-group">
             <label for="user">Пользователь:</label>
             <select id="user" name="userId">
-                <option th:each="user : ${users}" th:value="${user.id}" th:text="${user.userName}"></option>
+                <option th:each="user : ${users}" th:value="${user.id}" th:text="${user.getLogin}"></option>
             </select>
         </div>
         <div class="form-group">
@@ -101,7 +101,7 @@
                                 <p>Список участников:</p>
                                 <ul>
                                     <li th:each="user : ${project.usersList}">
-                                        <span th:text="${user.userName}"></span> (<span th:text="${user.role}"></span>)
+                                        <span th:text="${user.getLogin}"></span> (<span th:text="${user.role}"></span>)
                                     </li>
                                 </ul>
                             </div>

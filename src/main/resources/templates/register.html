@@ -8,8 +8,8 @@
 <h1>Register</h1>
 <form th:action="@{/register}" th:object="${user}" method="post">
   <div>
-    <label for="userName">Имя пользователя:</label>
-    <input type="text" id="userName" th:field="*{userName}" required>
+    <label for="login">Имя пользователя:</label>
+    <input type="text" id="login" th:field="*{getLogin}" required>
   </div>
   <div>
     <label for="password">Пароль :</label>

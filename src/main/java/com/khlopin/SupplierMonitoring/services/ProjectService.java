@@ -58,7 +58,7 @@ public class ProjectService {
     }
 
     public void addUserToProject(Project project, User user) {
-        User userFromDB = userRepository.findByUserName(user.getUserName()).orElse(null);
+        User userFromDB = userRepository.findUserByLogin(user.getLogin()).orElse(null);
         project.getUsersList().add(userFromDB);
         if (userFromDB != null) {
             userFromDB.setProject(project);

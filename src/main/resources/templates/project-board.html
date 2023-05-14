@@ -24,7 +24,7 @@
 
 <hr class="hr"/>
 <div style="text-align: center">
-    <h2 >Доска с задачами проекта</h2>
+    <h2>Доска с задачами проекта</h2>
 </div>
 <hr class="hr"/>
 
@@ -33,7 +33,8 @@
     <label for="projectSelect">Выберите проект:</label>
     <select id="projectSelect" name="projectSelect" onchange="location = this.value;">
         <option value="" selected>Выберите проект</option>
-        <option th:each="project : ${projects}" th:value="@{/project-board(projectId=${project.id})}" th:text="${project.projectName}"></option>
+        <option th:each="project : ${projects}" th:value="@{/project-board(projectId=${project.id})}"
+                th:text="${project.projectName}"></option>
     </select>
 </div>
 <hr class="hr"/>
@@ -45,31 +46,102 @@
 <div th:if="${!#lists.isEmpty(tasks)}" class="board">
     <div class="column" id="todo">
         <h3>To-Do</h3>
-        <div class="task" th:id="${task.id}" th:each="task : ${tasks}" th:if="${task.taskStatus.name()} == 'TODO'">
+        <div class="task" data-toggle="modal" th:attr="data-target='#modal'+${task.id}" th:id="${task.id}"
+             th:each="task : ${tasks}" th:if="${task.taskStatus.name()} == 'TODO'">
             <div class="task-text" th:text="${task.text}"></div>
-            <!-- Add other task details... -->
+            <div class="modal fade" th:id="'modal'+${task.id}" tabindex="-1" role="dialog"
+                 aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Информация о задаче</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Дополнительная информация: <span th:text="${task.extraInfo}"></span></p>
+                            <!-- Другая информация о задаче -->
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline
+-primary" data-mdb-ripple-color="dark"
+                                    data-dismiss="modal">Закрыть
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <div class="column" id="inprogress">
         <h3>In Progress</h3>
-        <div class="task" th:id="${task.id}" th:each="task : ${tasks}" th:if="${task.taskStatus.name()} == 'IN_PROGRESS'">
+        <div class="task" data-toggle="modal" th:attr="data-target='#modal'+${task.id}" th:id="${task.id}"
+             th:each="task : ${tasks}" th:if="${task.taskStatus.name()} == 'IN_PROGRESS'">
             <div class="task-text" th:text="${task.text}"></div>
-            <!-- Add other task details... -->
+            <div class="modal fade" th:id="'modal'+${task.id}" tabindex="-1" role="dialog"
+                 aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Информация о задаче</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Дополнительная информация: <span th:text="${task.extraInfo}"></span></p>
+                            <!-- Другая информация о задаче -->
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline
+-primary" data-mdb-ripple-color="dark"
+                                    data-dismiss="modal">Закрыть
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <div class="column" id="done">
         <h3>Done</h3>
-        <div class="task" th:id="${task.id}" th:each="task : ${tasks}" th:if="${task.taskStatus.name()} == 'DONE'">
+        <div class="task" data-toggle="modal" th:attr="data-target='#modal'+${task.id}" th:id="${task.id}"
+             th:each="task : ${tasks}" th:if="${task.taskStatus.name()} == 'DONE'">
             <div class="task-text" th:text="${task.text}"></div>
-            <!-- Add other task details... -->
+            <div class="modal fade" th:id="'modal'+${task.id}" tabindex="-1" role="dialog"
+                 aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Информация о задаче</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Дополнительная информация: <span th:text="${task.extraInfo}"></span></p>
+                            <!-- Другая информация о задаче -->
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline
+-primary" data-mdb-ripple-color="dark"
+                                    data-dismiss="modal">Закрыть
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
-
 <script th:src="@{/static/js/project-board.js}"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 <script
         type="text/javascript"
         src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.3.0/mdb.min.js"
 ></script>
+
 </body>
 </html>

@@ -1,7 +1,6 @@
 package com.khlopin.SupplierMonitoring.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,8 +16,15 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "userName")
-    private String userName;
+    @Column(name = "login")
+    private String login;
+    @Column(name = "name")
+    private String firstName;
+    @Column(name = "surname")
+    private String surname;
+    @Column(name = "patronymic")
+    private String patronymic;
+
     @Column(name = "password")
     private String password;
     @Column(name = "corp_id")
