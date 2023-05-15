@@ -2,15 +2,14 @@ package com.khlopin.SupplierMonitoring.services;
 
 import com.khlopin.SupplierMonitoring.entity.*;
 import com.khlopin.SupplierMonitoring.services.repositories.ProjectRepository;
+import com.khlopin.SupplierMonitoring.services.repositories.TaskRepository;
 import com.khlopin.SupplierMonitoring.services.repositories.UserRepository;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -22,21 +21,9 @@ public class ProjectService {
     private ProjectRepository projectRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private TaskRepository taskRepository;
     private static final Logger log = LogManager.getLogger(ProjectService.class);
-
-    @Transactional
-    public void addTaskInProject(Project project, Task task) {
-        List<Task> taskList = project.getTaskList();
-        if (taskList == null) {
-            taskList = new ArrayList<>();
-            project.setTaskList(taskList);
-        }
-        task.setProject(project);
-        taskList.add(task);
-        projectRepository.save(project);
-    }
-
-
 
 
     public void createProject(Project project) {
@@ -90,4 +77,18 @@ public class ProjectService {
                 .filter(user -> user.getRole() == Role.SUPPLIER)
                 .collect(Collectors.toList());
     }
+
+    public int getProjectProgress(Long projectId) {
+        List<Task> tasks = taskRepository.findByProjectId(projectId);
+        if (tasks.isEmpty()) {
+            return 0;
+        }
+
+        long doneTasksCount = tasks.stream()
+                .filter(task -> task.getTaskStatus() == TaskStatus.DONE)
+                .count();
+
+        return (int) ((doneTasksCount * 100) / tasks.size());
+    }
+
 }

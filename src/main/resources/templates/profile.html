@@ -1,38 +1,43 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>Профиль</title>
-  <link rel="stylesheet" href="../static/css/styles.css">
-  <!-- Font Awesome -->
-  <link
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-          rel="stylesheet"
-  />
-  <!-- Google Fonts -->
-  <link
-          href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
-          rel="stylesheet"
-  />
-  <!-- MDB -->
-  <link
-          href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.3.0/mdb.min.css"
-          rel="stylesheet"
-  />
+    <title>Профиль</title>
+    <link rel="stylesheet" href="../static/css/styles.css">
+    <!-- Font Awesome -->
+    <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+            rel="stylesheet"
+    />
+    <!-- Google Fonts -->
+    <link
+            href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+            rel="stylesheet"
+    />
+    <!-- MDB -->
+    <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.3.0/mdb.min.css"
+            rel="stylesheet"
+    />
 
 </head>
 <body>
-
 <div th:replace="~{fragments/header :: header}"></div>
+<hr class="hr"/>
 <div class="container">
-  <h1>Добро пожаловать, <span th:text="${user.getLogin}"></span>!</h1>
-  <p>Твой ID: <span th:text="${user.id}"></span></p>
-  <p>Твоя роль: <span th:text="${user.role}"></span></p>
-  <p>Твоя корпоративный ID: <span th:text="${user.corpId}"></span></p>
+    <div style="text-align: center">
+        <h1>Личный профиль</h1>
+    </div>
+    <hr class="hr"/>
 
-</div>
+    <p>Ваш логин: <span th:text="${user.getLogin}"></span><p>
+    <p>Твой ID: <span th:text="${user.id}"></span></p>
+    <p>Твоя роль: <span th:text="${user.role}"></span></p>
+    <p>Твоя корпоративный ID: <span th:text="${user.corpId}"></span></p>
+
 <script
         type="text/javascript"
         src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.3.0/mdb.min.js"
 ></script>
+</div>
 </body>
 </html>

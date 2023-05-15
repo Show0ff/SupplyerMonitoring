@@ -19,7 +19,6 @@
     />
 </head>
 <body>
-
 <div th:replace="~{fragments/header :: header}"></div>
 <hr class="hr"/>
 <div class="container">
@@ -75,9 +74,9 @@
             <td th:text="${user.role}"></td>
             <td>
                 <a th:href="@{/admin/users/{id}(id=${user.id})}">
-                    <button type="button" class="btn btn-outline-primary" data-mdb-ripple-color="dark">Изменить</button>
+                    <button
+                            type="button" class="btn btn-outline-primary" data-mdb-ripple-color="dark">Изменить</button>
                 </a>
-
                 <!-- Modal Trigger -->
                 <button type="button" class="btn btn-outline-primary" data-mdb-ripple-color="dark" data-toggle="modal"
                         th:attr="data-target='#modal'+${user.id}">Показать дополнительную информацию
@@ -99,7 +98,8 @@
                                 <p>Имя: <span th:text="${user.firstName}"></span></p>
                                 <p>Фамилия: <span th:text="${user.surname}"></span></p>
                                 <p>Отчество: <span th:text="${user.patronymic}"></span></p>
-                                <p>Проект: <span th:text="${user.project}"></span></p>
+                                <p>Отдел: <span th:if="${user.department} != null" th:text="${user.department.name}"></span></p>
+                                <p>Проект: <span th:if="${user.project} != null" th:text="${user.project.projectName}"></span></p>
                                 <p>Список задач: <span th:text="${user.manageTasks}"></span></p>
                             </div>
 
@@ -123,6 +123,5 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-
 </body>
 </html>

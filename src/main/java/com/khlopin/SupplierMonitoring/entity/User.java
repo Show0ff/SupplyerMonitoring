@@ -1,8 +1,7 @@
 package com.khlopin.SupplierMonitoring.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +11,9 @@ import java.util.List;
 @Table(name = "users")
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,9 +32,14 @@ public class User {
     @Column(name = "corp_id")
     private Integer corpId;
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Department department;
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Project project;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Task> manageTasks = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Task> workTask = new ArrayList<>();
 
     @Enumerated(value = EnumType.STRING)
     private Role role = Role.GUEST;

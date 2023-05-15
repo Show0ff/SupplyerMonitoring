@@ -18,26 +18,27 @@ import java.util.Optional;
 public class AuthController {
     private final UserService userService;
 
-    @GetMapping("/register")
-    public String showRegistrationForm(Model model) {
-        model.addAttribute("user", new User());
-        return "register";
-    }
-
-    @PostMapping("/register")
-    public String registerUser(User user, Model model) {
-        boolean isRegistered = userService.createUser(user);
-        if (isRegistered) {
-            model.addAttribute("message", "User registered successfully!");
-            return "redirect:/";
-        } else {
-            model.addAttribute("error", "User already exists!");
-            return "register";
-        }
-    }
+//    @GetMapping("/register")
+//    public String showRegistrationForm(Model model) {
+//        model.addAttribute("user", new User());
+//        return "register";
+//    }
+//
+//    @PostMapping("/register")
+//    public String registerUser(User user, Model model) {
+//        boolean isRegistered = userService.createUser(user);
+//        if (isRegistered) {
+//            model.addAttribute("message", "User registered successfully!");
+//            return "redirect:/";
+//        } else {
+//            model.addAttribute("error", "User already exists!");
+//            return "register";
+//        }
+//    }
 
     @GetMapping("/")
     public String showLoginForm() {
+        userService.createAdmin();
         return "login";
     }
 

@@ -48,7 +48,6 @@ public class ProjectController {
         } else if (action.equals("remove")) {
             projectService.removeUserFromProject(project, user);
         }
-
         return "redirect:/manage-projects";
     }
 

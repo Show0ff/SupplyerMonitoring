@@ -47,3 +47,7 @@ function updateTaskStatus(taskId, newStatus) {
         console.error('Error updating task status:', error);
     });
 }
+
+
+
+

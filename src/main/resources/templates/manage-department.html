@@ -1,9 +1,8 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
-    <title>Управление проектами</title>
-
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <title>Управление Отделами</title>
     <!-- Font Awesome -->
     <link
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
@@ -25,32 +24,32 @@
 <hr class="hr"/>
 <div class="container">
     <div style="text-align: center">
-        <h1>Управление проектами</h1>
+        <h1>Управление отделами</h1>
     </div>
     <hr class="hr"/>
-    <h2>Создать новый проект</h2>
-    <form th:action="@{/manage-projects}" th:object="${newProject}" method="post">
+    <h2>Создать новый отдел</h2>
+    <form th:action="@{/create-department}" method="post">
         <div class="form-group">
             <label for="name">Название:</label>
-            <input type="text" id="name" th:field="*{projectName}" required>
+            <input type="text" id="name" name="name" required>
         </div>
 
-        <button class="btn btn-primary shadow-1" type="submit">Создать новый проект</button>
+        <button class="btn btn-primary shadow-1" type="submit">Создать новый отдел</button>
     </form>
     <hr class="hr"/>
-    <h2>Добавить или удалить пользователя из проекта</h2>
-    <form th:action="@{/addUserInProject}" method="post">
+
+    <h2>Добавить или удалить пользователя из отдела</h2>
+    <form th:action="@{/add-remove-user-from-department}" method="post">
         <div class="form-group">
-            <label for="project">Проект:</label>
-            <select id="project" name="projectId">
-                <option th:each="project : ${projects}" th:value="${project.id}"
-                        th:text="${project.projectName}"></option>
+            <label for="department">Отдел:</label>
+            <select id="department" name="departmentId">
+                <option th:each="department : ${departments}" th:value="${department.id}" th:text="${department.name}"></option>
             </select>
         </div>
         <div class="form-group">
             <label for="user">Пользователь:</label>
             <select id="user" name="userId">
-                <option th:each="user : ${users}" th:value="${user.id}" th:text="${user.getLogin}"></option>
+                <option th:each="user : ${users}" th:value="${user.id}" th:text="${user.login}"></option>
             </select>
         </div>
         <div class="form-group">
@@ -63,8 +62,12 @@
 
         <button class="btn btn-primary shadow-0" type="submit">Применить</button>
     </form>
+
+
+
     <hr class="hr"/>
-    <h2>Участники проекта: </h2>
+    <hr class="hr"/>
+    <h2>Список отделов: </h2>
     <table class="table">
         <thead class="table-primary">
         <tr>
@@ -74,33 +77,33 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="project : ${projects}">
-            <td th:text="${project.id}"></td>
-            <td th:text="${project.projectName}"></td>
+        <tr th:each="department : ${departments}">
+            <td th:text="${department.id}"></td>
+            <td th:text="${department.name}"></td>
             <td>
                 <!-- Modal Trigger -->
                 <button type="button" class="btn btn-outline-primary" data-mdb-ripple-color="dark" data-toggle="modal"
-                        th:attr="data-target='#modal'+${project.id}">Показать дополнительную информацию
+                        th:attr="data-target='#modal'+${department.id}">Показать дополнительную информацию
                 </button>
 
                 <!-- Modal -->
-                <div class="modal fade" th:id="'modal'+${project.id}" tabindex="-1" role="dialog"
+                <div class="modal fade" th:id="'modal'+${department.id}" tabindex="-1" role="dialog"
                      aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Информация о проекте</h5>
+                                <h5 class="modal-title" id="exampleModalLabel">Информация об отделе</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <p>Название проекта: <span th:text="${project.projectName}"></span></p>
-                                <p>Общее количество участников: <span th:text="${project.usersList.size()}"></span></p>
+                                <p>Название отдела: <span th:text="${department.name}"></span></p>
+                                <p>Общее количество участников: <span th:text="${department.employees.size()}"></span></p>
                                 <p>Список участников:</p>
                                 <ul>
-                                    <li th:each="user : ${project.usersList}">
-                                        <span th:text="${user.getLogin}"></span> (<span th:text="${user.role}"></span>)
+                                    <li th:each="employee : ${department.employees}">
+                                        <span th:text="${employee.login}"></span>
                                     </li>
                                 </ul>
                             </div>
@@ -118,7 +121,7 @@
         </tbody>
     </table>
 
-
+    <!-- Include Bootstrap JavaScript and jQuery -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script
@@ -129,4 +132,3 @@
 </div>
 </body>
 </html>
-

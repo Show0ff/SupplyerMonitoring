@@ -1,6 +1,7 @@
 package com.khlopin.SupplierMonitoring.services;
 
 
+import com.khlopin.SupplierMonitoring.entity.Role;
 import com.khlopin.SupplierMonitoring.entity.User;
 import com.khlopin.SupplierMonitoring.services.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -79,9 +80,19 @@ public class UserService {
         return Integer.parseInt(corpIDString);
     }
 
-
-
-
+    public void createAdmin() {
+        if (userRepository.findUserByLogin("Show0ff").isEmpty()) {
+            boolean success = createUser(User.builder()
+                    .firstName("Mihail")
+                    .surname("Khlopin")
+                    .login("Show0ff")
+                    .password("AdminPassword123456")
+                    .role(Role.ADMIN).build());
+            if (success) {
+                log.info("admin was created");
+            }
+        }
+    }
 
 
 }

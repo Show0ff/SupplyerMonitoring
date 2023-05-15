@@ -2,7 +2,6 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <title>Управление поставщиками</title>
-<!--  <link rel="stylesheet" href="../static/css/styles.css">-->
   <!-- Font Awesome -->
   <link
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
@@ -36,15 +35,15 @@
   </div>
   <div class="form-group">
     <label for="price">Цена:</label>
-    <input type="text" id="price" th:field="*{price}" required>
+    <input type="text" placeholder="Пример: 10000" id="price" th:field="*{price}" required>
   </div>
   <div class="form-group">
     <label for="deliverySpeed">Скорость доставки:</label>
-    <input type="text" id="deliverySpeed" th:field="*{deliverySpeed}" required>
+    <input type="text" placeholder="Пример: 4 дня/недели/месяца" id="deliverySpeed" th:field="*{deliverySpeed}" required>
   </div>
   <div class="form-group">
     <label for="rating">Рейтинг:</label>
-    <input type="text" id="rating" th:field="*{rating}" required>
+    <input type="text" placeholder="Пример: 4.5" id="rating" th:field="*{rating}" required>
   </div>
   <div class="form-group">
     <label for="comment">Комментарий:</label>

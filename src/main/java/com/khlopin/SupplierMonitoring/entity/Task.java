@@ -21,10 +21,10 @@ public class Task {
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Project project;
 
-    @Column(name = "text")
+
     private String text;
 
-    @Column(name = "extra_info")
+
     private String extraInfo;
 
     @Enumerated(EnumType.STRING)
