@@ -19,6 +19,10 @@
             href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.3.0/mdb.min.css"
             rel="stylesheet"
     />
+    <link
+            href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"
+            rel="stylesheet"
+    />
 </head>
 <body>
 <div th:replace="~{fragments/header :: header}"></div>
@@ -34,6 +38,11 @@
             <label for="name">Название:</label>
             <input type="text" id="name" th:field="*{projectName}" required>
         </div>
+        <div class="form-group">
+            <label for="datepicker">Срок окончания проекта:</label>
+            <input type="date" id="datepicker" th:field="*{projectDueDate}" required>
+        </div>
+
 
         <button class="btn btn-primary shadow-1" type="submit">Создать новый проект</button>
     </form>
@@ -63,6 +72,35 @@
 
         <button class="btn btn-primary shadow-0" type="submit">Применить</button>
     </form>
+
+
+    <hr class="hr"/>
+    <h2>Добавить или удалить заказчика из проекта</h2>
+    <form th:action="@{/addCustomerInProject}" method="post">
+        <div class="form-group">
+            <label for="projectCustomer">Проект:</label>
+            <select id="projectCustomer" name="projectId">
+                <option th:each="project : ${projects}" th:value="${project.id}"
+                        th:text="${project.projectName}"></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="customer">Заказчик:</label>
+            <select id="customer" name="customerId">
+                <option th:each="customer : ${customers}" th:value="${customer.id}" th:text="${customer.login}"></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="customerAction">Действие:</label>
+            <select id="customerAction" name="action">
+                <option value="add">Добавить</option>
+                <option value="remove">Удалить</option>
+            </select>
+        </div>
+
+        <button class="btn btn-primary shadow-0" type="submit">Применить</button>
+    </form>
+
     <hr class="hr"/>
     <h2>Участники проекта: </h2>
     <table class="table">
@@ -95,12 +133,20 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <p>Название проекта: <span th:text="${project.projectName}"></span></p>
-                                <p>Общее количество участников: <span th:text="${project.usersList.size()}"></span></p>
-                                <p>Список участников:</p>
+                                <p><b>Название проекта: </b><span th:text="${project.projectName}"></span></p>
+                                <p><b>Срок сдачи проекта: </b><span th:text="${project.projectDueDate.toString()}"></span></p>
+                                <p><b>Общее количество участников: </b><span th:text="${project.usersList.size()}"></span></p>
+                                <p><b>Общее количество заказчиков: </b><span th:text="${project.customers.size()}"></span></p>
+                                <p><b>Список участников:</b> </p>
                                 <ul>
                                     <li th:each="user : ${project.usersList}">
-                                        <span th:text="${user.getLogin}"></span> (<span th:text="${user.role}"></span>)
+                                        <span th:text="${user.firstName} + ' ' + ${user.surname} + ' ' + ${user.patronymic}"></span> (<span th:text="${user.role}"></span>)
+                                    </li>
+                                </ul>
+                                <p><b>Список заказчиков:</b> </p>
+                                <ul>
+                                    <li th:each="customer : ${project.customers}">
+                                    <span th:text="${customer.firstName} + ' ' + ${customer.surname}"></span>
                                     </li>
                                 </ul>
                             </div>
@@ -125,6 +171,17 @@
             type="text/javascript"
             src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.3.0/mdb.min.js"
     ></script>
+
+    <!-- jQuery and jQuery UI scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script>
+        $( function() {
+            $( "#datepicker" ).datepicker({
+                dateFormat: "yy-mm-dd"
+            });
+        } );
+    </script>
 
 </div>
 </body>

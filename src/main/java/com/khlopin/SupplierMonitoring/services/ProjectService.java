@@ -91,4 +91,25 @@ public class ProjectService {
         return (int) ((doneTasksCount * 100) / tasks.size());
     }
 
+
+    public void addCustomerToProject(Project project, User customer) {
+        if (customer.getRole() == Role.CUSTOMER) {
+            project.getCustomers().add(customer);
+            projectRepository.save(project);
+        } else {
+            log.error("User is not a customer");
+        }
+    }
+
+    public void removeCustomerFromProject(Project project, User customer) {
+        project.getCustomers().remove(customer);
+        projectRepository.save(project);
+    }
+
+    public List<User> getCustomersFromProject(Project project) {
+        return project.getCustomers();
+    }
+
+
+
 }

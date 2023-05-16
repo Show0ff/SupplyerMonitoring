@@ -36,10 +36,11 @@
         </select>
     </div>
     <hr class="hr"/>
-
-    <a th:href="@{/create-task}">Создать новую задачу</a>
+    <div style="text-align: center">
+        <h2 th:if="${selectedProject != null}" th:text="'Выбранный проект: ' + ${selectedProject.projectName}"></h2>
+        <a th:href="@{/create-task}" class="btn btn-primary">Создать новую задачу</a>
+    </div>
     <hr class="hr"/>
-
     <!-- Display the board only if a project is selected -->
     <div th:if="${!#lists.isEmpty(tasks)}" class="board">
         <div class="column" id="todo">
@@ -67,6 +68,8 @@
                                 <p><b>Исполнитель задачи: </b><span th:if="${task.worker != null}"
                                                                     th:text="${task.worker.firstName + ' ' + task.worker.surname}"></span>
                                 </p>
+                                <p><b>Срок выполнения задачи: </b><span th:text="${task.needToFinishTaskUntil.toString()}"></span></p>
+
                                 <p><b>Дополнительная информация: </b><span th:text="${task.extraInfo}"></span></p>
                                 <!-- Другая информация о задаче -->
                             </div>
@@ -97,8 +100,17 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <p>Дополнительная информация: <span th:text="${task.extraInfo}"></span></p>
-                                <!-- Другая информация о задаче -->
+                                <p><b>Проект: </b> <span th:if="${task.project != null}"
+                                                         th:text="${task.project.projectName}"></span></p>
+                                <p><b>Статус задачи: </b><span th:text="${task.taskStatus}"></span></p>
+                                <p><b>Назначил задачу:</b> <span th:if="${task.manager != null}"
+                                                                 th:text="${task.manager.firstName + ' ' + task.manager.surname}"></span>
+                                </p>
+                                <p><b>Исполнитель задачи: </b><span th:if="${task.worker != null}"
+                                                                    th:text="${task.worker.firstName + ' ' + task.worker.surname}"></span>
+                                </p>
+                                <p><b>Дополнительная информация: </b><span th:text="${task.extraInfo}"></span></p>
+                                <!-- Другие параметры в модальном окне -->
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-outline
@@ -127,8 +139,17 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <p>Дополнительная информация: <span th:text="${task.extraInfo}"></span></p>
-                                <!-- Другая информация о задаче -->
+                                <p><b>Проект: </b> <span th:if="${task.project != null}"
+                                                         th:text="${task.project.projectName}"></span></p>
+                                <p><b>Статус задачи: </b><span th:text="${task.taskStatus}"></span></p>
+                                <p><b>Назначил задачу:</b> <span th:if="${task.manager != null}"
+                                                                 th:text="${task.manager.firstName + ' ' + task.manager.surname}"></span>
+                                </p>
+                                <p><b>Исполнитель задачи: </b><span th:if="${task.worker != null}"
+                                                                    th:text="${task.worker.firstName + ' ' + task.worker.surname}"></span>
+                                </p>
+                                <p><b>Дополнительная информация: </b><span th:text="${task.extraInfo}"></span></p>
+                                <!-- Другие параметры в модальном окне -->
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-outline
@@ -143,43 +164,43 @@
         </div>
     </div>
 </div>
-    <div class="progress">
-        <div class="progress-bar" style="width: 100%" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-    </div>
+<div class="progress" style="height: 20px">
+    <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
 
 
-    <script>
-        function updateProgressBar() {
-            var doneTasksCount = document.querySelectorAll('#done .task').length;
-            var totalTasksCount = document.querySelectorAll('.task').length;
-            var progressBar = document.querySelector('.progress-bar');
-            var progressValue = document.getElementById('progressValue');
+<script>
+    function updateProgressBar() {
+        var doneTasksCount = document.querySelectorAll('#done .task').length;
+        var totalTasksCount = document.querySelectorAll('.task').length;
+        var progressBar = document.querySelector('.progress-bar');
+        var progressValue = document.getElementById('progressValue');
 
-            if (totalTasksCount > 0) {
-                var progress = (doneTasksCount / totalTasksCount) * 100;
-                progressBar.style.width = progress + '%';
-                progressBar.setAttribute('aria-valuenow', progress);
-                progressBar.innerText = progress.toFixed(2) + '%';
-                progressValue.innerText = progress.toFixed(0);
-            } else {
-                progressBar.style.width = '0%';
-                progressBar.setAttribute('aria-valuenow', 0);
-                progressBar.innerText = '0%';
-                progressValue.innerText = '0';
-            }
+        if (totalTasksCount > 0) {
+            var progress = (doneTasksCount / totalTasksCount) * 100;
+            progressBar.style.width = progress + '%';
+            progressBar.setAttribute('aria-valuenow', progress);
+            progressBar.innerText = progress.toFixed(2) + '%';
+            progressValue.innerText = progress.toFixed(0);
+        } else {
+            progressBar.style.width = '0%';
+            progressBar.setAttribute('aria-valuenow', 0);
+            progressBar.innerText = '0%';
+            progressValue.innerText = '0';
         }
+    }
 
-        window.addEventListener('DOMContentLoaded', updateProgressBar);
-    </script>
+    window.addEventListener('DOMContentLoaded', updateProgressBar);
+</script>
 
 
-    <script th:src="@{/static/js/project-board.js}"></script>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-    <script
-            type="text/javascript"
-            src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.3.0/mdb.min.js"
-    ></script>
+<script th:src="@{/static/js/project-board.js}"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script
+        type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.3.0/mdb.min.js"
+></script>
 
 </body>
 </html>

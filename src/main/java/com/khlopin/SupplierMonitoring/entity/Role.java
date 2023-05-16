@@ -8,6 +8,7 @@ public enum Role {
     WORKER,
     SUPPLIER,
     MANAGER,
+    CUSTOMER,
     ADMIN
 
 

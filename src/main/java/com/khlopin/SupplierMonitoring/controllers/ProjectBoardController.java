@@ -22,10 +22,7 @@ import java.util.List;
 public class ProjectBoardController {
     private final TaskService taskService;
     private final ProjectService projectService;
-
     private static final Logger log = LogManager.getLogger(ProjectBoardController.class);
-
-
     private final UserService userService;
 
     @GetMapping("/project-board")
@@ -35,13 +32,17 @@ public class ProjectBoardController {
             tasks = null;
         } else {
             tasks = taskService.getTasksByProjectId(projectId);
+            Project selectedProject = projectService.getProjectById(projectId);
+            model.addAttribute("selectedProject", selectedProject);
         }
         model.addAttribute("tasks", tasks);
-        int projectProgress = projectService.getProjectProgress(projectId);
+        int projectProgress = projectId != null ? projectService.getProjectProgress(projectId) : 0;
         model.addAttribute("projectProgress", projectProgress);
         model.addAttribute("projects", projectService.getAllProjects());
         return "project-board";
     }
+
+
 
 
 
@@ -66,10 +67,12 @@ public class ProjectBoardController {
         } else {
             selectedWorker.getWorkTask().add(newTask);
             newTask.setWorker(selectedWorker);
+            newTask.setNeedToFinishTaskUntil(newTask.getNeedToFinishTaskUntil()); // установите дату выполнения
             taskService.createTask(newTask, user, project);
         }
         return "redirect:/project-board";
     }
+
 
 
 

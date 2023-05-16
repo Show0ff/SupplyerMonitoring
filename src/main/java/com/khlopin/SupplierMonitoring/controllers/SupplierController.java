@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
@@ -25,4 +26,12 @@ public class SupplierController {
         supplierService.createSupplier(newSupplier);
         return "redirect:/manage-suppliers";
     }
+
+    @PostMapping("/manage-suppliers/delete/{id}")
+    public String deleteSupplier(@PathVariable("id") Long id) {
+        supplierService.deleteSupplier(id);
+        return "redirect:/manage-suppliers";
+    }
+
+
 }

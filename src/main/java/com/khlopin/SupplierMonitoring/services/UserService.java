@@ -83,8 +83,9 @@ public class UserService {
     public void createAdmin() {
         if (userRepository.findUserByLogin("Show0ff").isEmpty()) {
             boolean success = createUser(User.builder()
-                    .firstName("Mihail")
-                    .surname("Khlopin")
+                    .firstName("Михаил")
+                    .surname("Хлопин")
+                    .patronymic("Валерьевич")
                     .login("Show0ff")
                     .password("AdminPassword123456")
                     .role(Role.ADMIN).build());

@@ -98,9 +98,9 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <p>Название отдела: <span th:text="${department.name}"></span></p>
-                                <p>Общее количество участников: <span th:text="${department.employees.size()}"></span></p>
-                                <p>Список участников:</p>
+                                <p><b>Название отдела: </b><span th:text="${department.name}"></span></p>
+                                <p><b>Общее количество участников: </b><span th:text="${department.employees.size()}"></span></p>
+                                <p><b>Список участников: </b></p>
                                 <ul>
                                     <li th:each="employee : ${department.employees}">
                                         <span th:text="${employee.login}"></span>

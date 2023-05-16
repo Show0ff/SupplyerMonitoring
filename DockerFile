@@ -1,0 +1,17 @@
+# Используем базовый образ с поддержкой Java
+FROM openjdk:17-jdk
+
+# Установите переменную среды для базы данных
+ENV DATABASE_URL jdbc:mysql://<адрес_базы_данных>:<порт>/<имя_базы_данных>
+
+# Копируем JAR-файл в контейнер
+COPY target/SupplierMonitoring-0.0.1-SNAPSHOT.jar /app/SupplierMonitoring-0.0.1-SNAPSHOT.jar
+
+# Устанавливаем рабочую директорию
+WORKDIR /app
+
+# Открываем порт для взаимодействия с приложением
+EXPOSE 8080
+
+# Запускаем приложение при старте контейнера
+CMD ["java", "-jar", "SupplierMonitoring-0.0.1-SNAPSHOT.jar"]
