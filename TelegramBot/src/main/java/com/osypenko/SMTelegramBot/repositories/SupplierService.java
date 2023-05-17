@@ -1,6 +1,6 @@
 package com.osypenko.SMTelegramBot.repositories;
 
-import com.osypenko.SMTelegramBot.entity.Supplier;
+import com.osypenko.SMTelegramBot.entityies.Supplier;
 import com.osypenko.SMTelegramBot.repositories.interfaces.SupplierRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,7 +14,7 @@ public class SupplierService {
 
     //Создание списка поставщиков
     public List<Supplier> getAllSuppliers() {
-        return (List<Supplier>) supplierRepository.findAll();
+        return supplierRepository.findAll();
     }
 
     //Получение информации о конкретном поставщике по его названию

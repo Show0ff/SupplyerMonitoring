@@ -1,4 +1,4 @@
-package com.osypenko.SMTelegramBot.entity;
+package com.osypenko.SMTelegramBot.entityies;
 
 import jakarta.persistence.*;
 import lombok.*;

@@ -1,7 +1,7 @@
 package com.osypenko.SMTelegramBot.services;
 
-import com.osypenko.SMTelegramBot.entity.Supplier;
-import com.osypenko.SMTelegramBot.entity.Task;
+import com.osypenko.SMTelegramBot.entityies.Supplier;
+import com.osypenko.SMTelegramBot.entityies.Task;
 import com.osypenko.SMTelegramBot.repositories.SupplierService;
 import com.osypenko.SMTelegramBot.repositories.TaskService;
 import com.osypenko.SMTelegramBot.repositories.UserService;

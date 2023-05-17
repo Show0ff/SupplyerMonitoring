@@ -1,6 +1,6 @@
 package com.osypenko.SMTelegramBot.repositories;
 
-import com.osypenko.SMTelegramBot.entity.Task;
+import com.osypenko.SMTelegramBot.entityies.Task;
 import com.osypenko.SMTelegramBot.repositories.interfaces.TaskRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

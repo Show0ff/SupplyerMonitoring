@@ -1,6 +1,6 @@
 package com.osypenko.SMTelegramBot.repositories;
 
-import com.osypenko.SMTelegramBot.entity.User;
+import com.osypenko.SMTelegramBot.entityies.User;
 import com.osypenko.SMTelegramBot.repositories.interfaces.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

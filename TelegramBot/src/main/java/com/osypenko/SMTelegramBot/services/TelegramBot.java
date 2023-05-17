@@ -1,6 +1,6 @@
 package com.osypenko.SMTelegramBot.services;
 
-import com.osypenko.SMTelegramBot.entity.User;
+import com.osypenko.SMTelegramBot.entityies.User;
 import com.osypenko.SMTelegramBot.config.BotConfig;
 import com.osypenko.SMTelegramBot.repositories.UserService;
 import lombok.extern.slf4j.Slf4j;

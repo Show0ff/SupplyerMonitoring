@@ -1,4 +1,4 @@
-package com.osypenko.SMTelegramBot.entity;
+package com.osypenko.SMTelegramBot.entityies;
 
 public enum TaskStatus {
     TODO,
