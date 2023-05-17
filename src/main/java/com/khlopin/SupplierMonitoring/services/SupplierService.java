@@ -33,4 +33,13 @@ public class SupplierService {
 
     }
 
+    public Supplier getSupplierById(Long supplierId) {
+        Optional<Supplier> supplier = supplierRepository.findById(supplierId);
+        if (supplier.isPresent()) {
+            return supplier.get();
+       } else {
+            log.error(supplier + " поставщик не найден");
+        }
+        return null;
+    }
 }

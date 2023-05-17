@@ -72,11 +72,7 @@ public class ProjectService {
                 .collect(Collectors.toList());
     }
 
-    public List<User> getSuppliersFromProject(Project project) {
-        return project.getUsersList().stream()
-                .filter(user -> user.getRole() == Role.SUPPLIER)
-                .collect(Collectors.toList());
-    }
+
 
     public int getProjectProgress(Long projectId) {
         List<Task> tasks = taskRepository.findByProjectId(projectId);
@@ -95,7 +91,9 @@ public class ProjectService {
     public void addCustomerToProject(Project project, User customer) {
         if (customer.getRole() == Role.CUSTOMER) {
             project.getCustomers().add(customer);
+            customer.setProject(project); // Установить projectId для пользователя
             projectRepository.save(project);
+            userRepository.save(customer); // Сохранить пользователя
         } else {
             log.error("User is not a customer");
         }
@@ -103,11 +101,27 @@ public class ProjectService {
 
     public void removeCustomerFromProject(Project project, User customer) {
         project.getCustomers().remove(customer);
+        customer.setProject(null); // Удалить projectId у пользователя
         projectRepository.save(project);
+        userRepository.save(customer); // Сохранить пользователя
     }
 
     public List<User> getCustomersFromProject(Project project) {
         return project.getCustomers();
+    }
+
+    public void addSupplierToProject(Project project, Supplier supplier) {
+        project.getSuppliers().add(supplier);
+        projectRepository.save(project);
+    }
+
+    public void removeSupplierFromProject(Project project, Supplier supplier) {
+        project.getSuppliers().remove(supplier);
+        projectRepository.save(project);
+    }
+
+    public List<Supplier> getSuppliersFromProject(Project project) {
+        return project.getSuppliers();
     }
 
 

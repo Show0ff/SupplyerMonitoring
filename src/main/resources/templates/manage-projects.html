@@ -73,6 +73,33 @@
         <button class="btn btn-primary shadow-0" type="submit">Применить</button>
     </form>
 
+    <hr class="hr"/>
+    <h2>Добавить или удалить поставщика из проекта</h2>
+    <form th:action="@{/addSupplierInProject}" method="post">
+        <div class="form-group">
+            <label for="projectSupplier">Проект:</label>
+            <select id="projectSupplier" name="projectId">
+                <option th:each="project : ${projects}" th:value="${project.id}"
+                        th:text="${project.projectName}"></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="supplier">Поставщик:</label>
+            <select id="supplier" name="supplierId">
+                <option th:each="supplier : ${suppliers}" th:value="${supplier.id}" th:text="${supplier.name}"></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="supplierAction">Действие:</label>
+            <select id="supplierAction" name="action">
+                <option value="add">Добавить</option>
+                <option value="remove">Удалить</option>
+            </select>
+        </div>
+
+        <button class="btn btn-primary shadow-0" type="submit">Применить</button>
+    </form>
+
 
     <hr class="hr"/>
     <h2>Добавить или удалить заказчика из проекта</h2>
@@ -87,7 +114,8 @@
         <div class="form-group">
             <label for="customer">Заказчик:</label>
             <select id="customer" name="customerId">
-                <option th:each="customer : ${customers}" th:value="${customer.id}" th:text="${customer.login}"></option>
+                <option th:each="customer : ${customers}" th:value="${customer.id}"
+                        th:text="${customer.login}"></option>
             </select>
         </div>
         <div class="form-group">
@@ -134,28 +162,74 @@
                             </div>
                             <div class="modal-body">
                                 <p><b>Название проекта: </b><span th:text="${project.projectName}"></span></p>
-                                <p><b>Срок сдачи проекта: </b><span th:text="${project.projectDueDate.toString()}"></span></p>
-                                <p><b>Общее количество участников: </b><span th:text="${project.usersList.size()}"></span></p>
-                                <p><b>Общее количество заказчиков: </b><span th:text="${project.customers.size()}"></span></p>
-                                <p><b>Список участников:</b> </p>
+                                <p><b>Срок сдачи проекта: </b><span
+                                        th:text="${project.projectDueDate.toString()}"></span></p>
+                                <p><b>Общее количество участников: </b><span
+                                        th:text="${project.usersList.size()}"></span></p>
+                                <p><b>Общее количество заказчиков: </b><span
+                                        th:text="${project.customers.size()}"></span></p>
+                                <p><b>Общее количество поставщиков: </b><span
+                                        th:text="${project.suppliers.size()}"></span></p>
+
+                                <p><b>Список участников:</b></p>
                                 <ul>
                                     <li th:each="user : ${project.usersList}">
-                                        <span th:text="${user.firstName} + ' ' + ${user.surname} + ' ' + ${user.patronymic}"></span> (<span th:text="${user.role}"></span>)
+                                        <span th:text="${user.firstName} + ' ' + ${user.patronymic} + ' ' + ${user.surname}"></span>
+                                        (<span th:text="${user.role}"></span>)
                                     </li>
                                 </ul>
-                                <p><b>Список заказчиков:</b> </p>
+                                <p><b>Список заказчиков:</b></p>
                                 <ul>
                                     <li th:each="customer : ${project.customers}">
-                                    <span th:text="${customer.firstName} + ' ' + ${customer.surname}"></span>
+                                        <span th:text="${customer.firstName} + ' ' + ${customer.surname}"></span>
+                                    </li>
+                                </ul>
+                                <p><b>Список поставщиков:</b></p>
+                                <ul>
+                                    <li th:each="supplier : ${project.suppliers}">
+                                        <span th:text="${supplier.name}"></span>
                                     </li>
                                 </ul>
                             </div>
 
                             <div class="modal-footer">
+                                <button class="btn btn-primary" data-toggle="modal"
+                                        th:attr="data-target='#extensionModal'+${project.id}">Запросить продление сроков
+                                </button>
+
                                 <button type="button" class="btn btn-outline-primary" data-mdb-ripple-color="dark"
                                         data-dismiss="modal">Закрыть
                                 </button>
                             </div>
+                            <!-- Модальное окно для запроса продления сроков -->
+                            <div class="modal fade" th:id="'extensionModal'+${project.id}" tabindex="-1" role="dialog"
+                                 aria-labelledby="extensionModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="extensionModalLabel">Запрос продления
+                                                сроков</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form th:action="@{/submit-extension}" method="post">
+                                                <input type="hidden" th:name="projectId" th:value="${project.id}"/>
+                                                <div class="form-group">
+                                                    <label for="extensionDays">Количество дней:</label>
+                                                    <input type="number" class="form-control" id="extensionDays"
+                                                           name="extensionDays" required>
+                                                </div>
+                                                <button type="submit" class="btn btn-primary">Отправить запрос</button>
+                                            </form>
+                                            <p th:if="${project.extensionRequested}">Запрос на продление сроков уже
+                                                отправлен.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -176,11 +250,20 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <script>
-        $( function() {
-            $( "#datepicker" ).datepicker({
+        $(function () {
+            $("#datepicker").datepicker({
                 dateFormat: "yy-mm-dd"
             });
-        } );
+        });
+    </script>
+
+    <script>$(document).on('show.bs.modal', '.modal', function (event) {
+        var zIndex = 1040 + (10 * $('.modal:visible').length);
+        $(this).css('z-index', zIndex);
+        setTimeout(function () {
+            $('.modal-backdrop').not('.modal-stack').css('z-index', zIndex - 1).addClass('modal-stack');
+        }, 0);
+    });
     </script>
 
 </div>

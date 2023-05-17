@@ -26,6 +26,30 @@
   <h1>Меню заказчика</h1>
 </div>
 <hr class="hr"/>
+<h2>Опрос о продлении сроков</h2>
+<form th:action="@{/customer-menu/approve-extension}" method="post" th:if="${user.project.extensionRequested && !user.project.extensionPollCompleted}">
+  <p th:text="${user.project.projectName}">Опрос для проекта: </p>
+  <input type="hidden" th:name="projectId" th:value="${user.project.id}" />
+  <button type="submit" class="btn btn-success">Продлить</button>
+</form>
+<form th:action="@{/customer-menu/reject-extension}" method="post" th:if="${user.project.extensionRequested && !user.project.extensionPollCompleted}">
+  <input type="hidden" th:name="projectId" th:value="${user.project.id}" />
+  <button type="submit" class="btn btn-danger">Отказать</button>
+</form>
+
+
+
+<h2>Результат</h2>
+<p th:if="${user.project.extensionRequested && !user.project.extensionPollCompleted}">
+  Проголосовало: <span th:text="${approveVotes}"></span> за, <span th:text="${rejectVotes}"></span> против
+</p>
+
+<p th:if="${user.project.extensionRequested && user.project.extensionPollCompleted}">
+  Результат опроса:
+  <span th:if="${approveVotes > rejectVotes}">Продление сроков одобрено большинством голосов</span>
+  <span th:if="${approveVotes >= rejectVotes}">Продление сроков отклонено или не достигнуто большинство голосов</span>
+</p>
+
 
 
 <script
@@ -35,12 +59,6 @@
 <!-- jQuery and jQuery UI scripts -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-<script>
-  $( function() {
-    $( "#datepicker" ).datepicker({
-      dateFormat: "yy-mm-dd"
-    });
-  } );
-</script>
+
 </body>
 </html>

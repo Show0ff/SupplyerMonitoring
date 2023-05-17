@@ -2,8 +2,10 @@ package com.khlopin.SupplierMonitoring.controllers;
 
 import com.khlopin.SupplierMonitoring.entity.Project;
 import com.khlopin.SupplierMonitoring.entity.Role;
+import com.khlopin.SupplierMonitoring.entity.Supplier;
 import com.khlopin.SupplierMonitoring.entity.User;
 import com.khlopin.SupplierMonitoring.services.ProjectService;
+import com.khlopin.SupplierMonitoring.services.SupplierService;
 import com.khlopin.SupplierMonitoring.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +26,8 @@ public class ProjectController {
     private ProjectService projectService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private SupplierService supplierService;
 
 
     @GetMapping("/manage-projects")
@@ -36,7 +41,8 @@ public class ProjectController {
         }
         model.addAttribute("projects", projectService.getAllProjects());
         model.addAttribute("customers", customerList);
-        model.addAttribute("users", allUsers);  // assuming you have a UserService
+        model.addAttribute("suppliers", supplierService.getAllSuppliers());
+        model.addAttribute("users", allUsers);
         model.addAttribute("newProject", new Project());
 
 
@@ -75,6 +81,35 @@ public class ProjectController {
         }
         return "redirect:/manage-projects";
     }
+
+    @PostMapping("/addSupplierInProject")
+    public String addSupplierInProject(@RequestParam Long projectId, @RequestParam Long supplierId, @RequestParam String action) {
+        Project project = projectService.getProjectById(projectId);
+        Supplier supplier = supplierService.getSupplierById(supplierId);
+
+        if (action.equals("add")) {
+            projectService.addSupplierToProject(project, supplier);
+        } else if (action.equals("remove")) {
+            projectService.removeSupplierFromProject(project, supplier);
+        }
+        return "redirect:/manage-projects";
+    }
+
+    @PostMapping("/submit-extension")
+    public String submitExtension(@RequestParam Long projectId, @RequestParam Integer extensionDays) {
+        Project project = projectService.getProjectById(projectId);
+        if (project != null && !project.isExtensionRequested()) {
+            // Обновите дату сдачи проекта, добавив указанное количество дней
+            LocalDate newDueDate = project.getProjectDueDate().plusDays(extensionDays);
+            project.setProjectDueDate(newDueDate);
+            project.setExtensionRequested(true);
+            projectService.createProject(project);
+        }
+        return "redirect:/manage-projects";
+    }
+
+
+
 
 
 }

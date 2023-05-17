@@ -67,7 +67,7 @@ public class ProjectBoardController {
         } else {
             selectedWorker.getWorkTask().add(newTask);
             newTask.setWorker(selectedWorker);
-            newTask.setNeedToFinishTaskUntil(newTask.getNeedToFinishTaskUntil()); // установите дату выполнения
+            newTask.setNeedToFinishTaskUntil(newTask.getNeedToFinishTaskUntil());
             taskService.createTask(newTask, user, project);
         }
         return "redirect:/project-board";

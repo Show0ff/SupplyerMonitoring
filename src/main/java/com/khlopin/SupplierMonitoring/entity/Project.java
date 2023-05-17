@@ -29,7 +29,25 @@ public class Project {
     )
     private List<User> customers = new ArrayList<>();
 
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "project_suppliers",
+            joinColumns = @JoinColumn(name = "project_id"),
+            inverseJoinColumns = @JoinColumn(name = "supplier_id")
+    )
+    private List<Supplier> suppliers = new ArrayList<>();
 
     @Column(name = "project_due_date")
     private LocalDate projectDueDate;
+
+    @Column(name = "extension_requested")
+    private boolean extensionRequested;
+
+    @Column(name = "extension_poll_completed")
+    private boolean extensionPollCompleted;
+
+    @Column(name = "extension_days")
+    private Integer extensionDays;
+
+
 }

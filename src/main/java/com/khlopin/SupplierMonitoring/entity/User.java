@@ -3,6 +3,7 @@ package com.khlopin.SupplierMonitoring.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,6 +44,13 @@ public class User {
 
     @Enumerated(value = EnumType.STRING)
     private Role role = Role.GUEST;
+
+    @Column(name = "extension_approval")
+    private Boolean extensionApproval;
+
+    @Column(name = "extension_vote_date")
+    private LocalDate extensionVoteDate;
+
 
 
 }
