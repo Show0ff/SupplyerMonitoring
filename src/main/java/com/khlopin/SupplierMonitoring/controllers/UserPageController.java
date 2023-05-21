@@ -1,31 +1,49 @@
 package com.khlopin.SupplierMonitoring.controllers;
 
+import com.khlopin.SupplierMonitoring.entity.Task;
 import com.khlopin.SupplierMonitoring.entity.User;
+import com.khlopin.SupplierMonitoring.services.TaskService;
+import com.khlopin.SupplierMonitoring.services.UserService;
 import com.khlopin.SupplierMonitoring.services.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
-@Component
 @Controller
 @RequestMapping("/user")
 public class UserPageController {
     @Autowired
+    private UserService userService;
+    @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private TaskService taskService;
     @GetMapping("/{id}")
     public String showUserProfile(@PathVariable Long id, Model model) {
         Optional<User> byId = userRepository.findById(id);
         if (byId.isPresent()) {
             User user = byId.get();
             model.addAttribute("user", user);
-            return "redirect:/user/" + user.getId();
+
+            List<Task> tasks = user.getWorkTask();
+            tasks.addAll(user.getManageTasks());
+            model.addAttribute("tasks", taskService.getAllTasks());
+
+
+            return "profile";
         } else {
             System.out.println("User with ID " + id + " not found");
             return "redirect:/login";
@@ -33,4 +51,20 @@ public class UserPageController {
     }
 
 
+
+
+    @PostMapping("/{id}/avatar")
+    public String uploadUserProfile(@PathVariable Long id, @RequestParam("file") MultipartFile file) {
+        Optional<User> byId = userRepository.findById(id);
+        if (byId.isPresent()) {
+            userService.uploadAvatar(file, byId.get());
+            return "redirect:/user/{id}";
+        } else {
+            System.out.println("User with ID " + id + " not found");
+            return "redirect:/login";
+        }
+    }
+
 }
+
+

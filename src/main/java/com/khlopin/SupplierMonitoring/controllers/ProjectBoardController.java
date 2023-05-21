@@ -11,6 +11,7 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +25,7 @@ public class ProjectBoardController {
     private final ProjectService projectService;
     private static final Logger log = LogManager.getLogger(ProjectBoardController.class);
     private final UserService userService;
+
 
     @GetMapping("/project-board")
     public String showProjectBoard(@RequestParam(required = false) Long projectId, Model model) {

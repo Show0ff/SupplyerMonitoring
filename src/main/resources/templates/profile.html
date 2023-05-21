@@ -1,43 +1,331 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <title>Профиль</title>
     <link rel="stylesheet" href="../static/css/styles.css">
     <!-- Font Awesome -->
-    <link
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-            rel="stylesheet"
-    />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
     <!-- Google Fonts -->
-    <link
-            href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
-            rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
     <!-- MDB -->
-    <link
-            href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.3.0/mdb.min.css"
-            rel="stylesheet"
-    />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.3.0/mdb.min.css" rel="stylesheet" />
 
 </head>
+
 <body>
 <div th:replace="~{fragments/header :: header}"></div>
-<hr class="hr"/>
+<hr class="hr" />
 <div class="container">
     <div style="text-align: center">
         <h1>Личный профиль</h1>
     </div>
-    <hr class="hr"/>
+    <hr class="hr" />
 
-    <p>Ваш логин: <span th:text="${user.getLogin}"></span><p>
-    <p>Твой ID: <span th:text="${user.id}"></span></p>
-    <p>Твоя роль: <span th:text="${user.role}"></span></p>
-    <p>Твоя корпоративный ID: <span th:text="${user.corpId}"></span></p>
+    <div class="row">
+        <div class="col-md-8">
+            <h3 class="mb-4">Профиль пользователя</h3>
+            <div class="mb-3">
+                <p><b>Ваш логин: </b><span th:text="${user.getLogin}"></span></p>
+                <p><b>ФИО: </b><span
+                        th:text="${user.firstName + ' ' + user.surname + ' ' + user.patronymic}"></span></p>
+                <p><b>Твоя роль: </b><span th:text="${user.role}"></span></p>
+                <p><b>Отдел: </b><span th:text="${user.department}"></span></p>
+            </div>
 
-<script
-        type="text/javascript"
-        src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.3.0/mdb.min.js"
-></script>
+            <h4>Список твоих задач:</h4>
+            <!-- Bootstrap accordion for tasks -->
+            <div id="taskAccordion">
+
+                <div class="card">
+                    <div class="card-header" id="todoTask">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                    data-target="#collapseTodo" aria-expanded="true" aria-controls="collapseTodo">
+                                TODO
+                            </button>
+                        </h5>
+                    </div>
+                    <div id="collapseTodo" class="collapse show" aria-labelledby="todoTask"
+                         data-parent="#taskAccordion">
+                        <div class="card-body">
+                            <ul class="list-group">
+                                <li th:each="task : ${user.workTask}"
+                                    th:if="${task.taskStatus == T(com.khlopin.SupplierMonitoring.entity.TaskStatus).TODO}"
+                                    class="list-group-item" data-toggle="modal"
+                                    th:data-target="'#taskModal' + ${task.id}">
+                                    <div>
+                                        <b>Задание:</b> <span th:text="${task.text}"></span><br>
+                                        <b>Выдал менеджер:</b> <span
+                                            th:text="${task.manager.firstName + ' ' + task.manager.surname + ' ' + task.manager.patronymic}"></span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- IN_PROGRESS tasks -->
+                <div class="card">
+                    <div class="card-header" id="inProgressTask">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+                                    data-target="#collapseInProgress" aria-expanded="false"
+                                    aria-controls="collapseInProgress">
+                                IN_PROGRESS
+                            </button>
+                        </h5>
+                    </div>
+                    <div id="collapseInProgress" class="collapse" aria-labelledby="inProgressTask"
+                         data-parent="#taskAccordion">
+                        <div class="card-body">
+                            <ul class="list-group">
+                                <li th:each="task : ${user.workTask}"
+                                    th:if="${task.taskStatus == T(com.khlopin.SupplierMonitoring.entity.TaskStatus).IN_PROGRESS}"
+                                    class="list-group-item" data-toggle="modal"
+                                    th:data-target="'#taskModal' + ${task.id}">
+                                    <div>
+                                        <b>Задание:</b> <span th:text="${task.text}"></span><br>
+                                        <b>Выдал менеджер:</b> <span
+                                            th:text="${task.manager.firstName + ' ' + task.manager.surname + ' ' + task.manager.patronymic}"></span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DONE tasks -->
+                <div class="card">
+                    <div class="card-header" id="doneTask">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+                                    data-target="#collapseDone" aria-expanded="false" aria-controls="collapseDone">
+                                DONE
+                            </button>
+                        </h5>
+                    </div>
+                    <div id="collapseDone" class="collapse" aria-labelledby="doneTask"
+                         data-parent="#taskAccordion">
+                        <div class="card-body">
+                            <ul class="list-group">
+                                <li th:each="task : ${user.workTask}"
+                                    th:if="${task.taskStatus == T(com.khlopin.SupplierMonitoring.entity.TaskStatus).DONE}"
+                                    class="list-group-item" data-toggle="modal"
+                                    th:data-target="'#taskModal' + ${task.id}">
+                                    <div>
+                                        <b>Задание:</b> <span th:text="${task.text}"></span><br>
+                                        <b>Выдал менеджер:</b> <span
+                                            th:text="${task.manager.firstName + ' ' + task.manager.surname + ' ' + task.manager.patronymic}"></span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Check for the user role and display managing tasks similarly -->
+            <div th:if="${user.role == T(com.khlopin.SupplierMonitoring.entity.Role).MANAGER || user.role == T(com.khlopin.SupplierMonitoring.entity.Role).ADMIN}"
+                 class="container">
+                <div class="mt-4">
+                    <h4>Список задач, которые ты выдал :</h4>
+
+                    <!-- Bootstrap accordion for manage tasks -->
+                    <div id="manageTaskAccordion">
+
+                        <!-- TODO tasks -->
+                        <div class="card">
+                            <div class="card-header" id="manageTodoTask">
+                                <h5 class="mb-0">
+                                    <button class="btn btn-link" type="button" data-toggle="collapse"
+                                            data-target="#collapseManageTodo" aria-expanded="true"
+                                            aria-controls="collapseManageTodo">
+                                        TODO
+                                    </button>
+                                </h5>
+                            </div>
+                            <div id="collapseManageTodo" class="collapse show" aria-labelledby="manageTodoTask"
+                                 data-parent="#manageTaskAccordion">
+                                <div class="card-body">
+                                    <ul class="list-group">
+                                        <li th:each="task : ${user.manageTasks}"
+                                            th:if="${task.taskStatus == T(com.khlopin.SupplierMonitoring.entity.TaskStatus).TODO}"
+                                            class="list-group-item" data-toggle="modal"
+                                            th:data-target="'#taskModal' + ${task.id}">
+                                            <div>
+                                                <b>Задание:</b> <span th:text="${task.text}"></span><br>
+                                                <b>Выдано работнику:</b> <span
+                                                    th:text="${task.worker.firstName + ' ' + task.worker.surname + ' ' + task.worker.patronymic}"></span>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- IN_PROGRESS tasks -->
+                        <div class="card">
+                            <div class="card-header" id="manageInProgressTask">
+                                <h5 class="mb-0">
+                                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+                                            data-target="#collapseManageInProgress" aria-expanded="false"
+                                            aria-controls="collapseManageInProgress">
+                                        IN_PROGRESS
+                                    </button>
+                                </h5>
+                            </div>
+                            <div id="collapseManageInProgress" class="collapse"
+                                 aria-labelledby="manageInProgressTask" data-parent="#manageTaskAccordion">
+                                <div class="card-body">
+                                    <ul class="list-group">
+                                        <li th:each="task : ${user.manageTasks}"
+                                            th:if="${task.taskStatus == T(com.khlopin.SupplierMonitoring.entity.TaskStatus).IN_PROGRESS}"
+                                            class="list-group-item" data-toggle="modal"
+                                            th:data-target="'#taskModal' + ${task.id}">
+                                            <div>
+                                                <b>Задание:</b> <span th:text="${task.text}"></span><br>
+                                                <b>Выдано работнику:</b> <span
+                                                    th:text="${task.worker.firstName + ' ' + task.worker.surname + ' ' + task.worker.patronymic}"></span>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- DONE tasks -->
+                        <div class="card">
+                            <div class="card-header" id="manageDoneTask">
+                                <h5 class="mb-0">
+                                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+                                            data-target="#collapseManageDone" aria-expanded="false"
+                                            aria-controls="collapseManageDone">
+                                        DONE
+                                    </button>
+                                </h5>
+                            </div>
+                            <div id="collapseManageDone" class="collapse" aria-labelledby="manageDoneTask"
+                                 data-parent="#manageTaskAccordion">
+                                <div class="card-body">
+                                    <ul class="list-group">
+                                        <li th:each="task : ${user.manageTasks}"
+                                            th:if="${task.taskStatus == T(com.khlopin.SupplierMonitoring.entity.TaskStatus).DONE}"
+                                            class="list-group-item" data-toggle="modal"
+                                            th:data-target="'#taskModal' + ${task.id}">
+                                            <div>
+                                                <b>Задание:</b> <span th:text="${task.text}"></span><br>
+                                                <b>Выдано работнику:</b> <span
+                                                    th:text="${task.worker.firstName + ' ' + task.worker.surname + ' ' + task.worker.patronymic}"></span>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Аватар</h3>
+                </div>
+                <div class="card-body text-center">
+                    <img th:src="@{'/' + ${user.avatarPath}}" alt="User avatar" class="img-thumbnail">
+                    <form method="post" th:action="@{/user/{id}/avatar(id=${user.id})}" enctype="multipart/form-data"
+                          class="mt-3">
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="customFile" name="file"
+                                   accept="image/*">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Загрузить</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+
+<!-- Модальные окна для каждой задачи -->
+<div th:each="task : ${user.workTask}">
+    <div class="modal fade" th:id="'taskModal' + ${task.id}" tabindex="-1" role="dialog"
+         aria-labelledby="'taskModalLabel' + ${task.id}" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" th:id="'taskModalLabel' + ${task.id}">Подробная информация о задаче</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p><b>Проект: </b> <span th:if="${task.project != null}"
+                                             th:text="${task.project.projectName}"></span></p>
+                    <p><b>Статус задачи: </b><span th:text="${task.taskStatus}"></span></p>
+                    <p><b>Назначил задачу:</b> <span th:if="${task.manager != null}"
+                                                     th:text="${task.manager.firstName + ' ' + task.manager.surname}"></span>
+                    </p>
+                    <p><b>Исполнитель задачи: </b><span th:if="${task.worker != null}"
+                                                        th:text="${task.worker.firstName + ' ' + task.worker.surname}"></span>
+                    </p>
+                    <p><b>Дополнительная информация: </b><span th:text="${task.extraInfo}"></span></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:each="task : ${user.manageTasks}">
+    <div class="modal fade" th:id="'taskModal' + ${task.id}" tabindex="-1" role="dialog"
+         aria-labelledby="'taskModalLabel' + ${task.id}" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" th:id="'taskModalLabel' + ${task.id}">Подробная информация о задаче</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p><b>Проект: </b> <span th:if="${task.project != null}"
+                                             th:text="${task.project.projectName}"></span></p>
+                    <p><b>Статус задачи: </b><span th:text="${task.taskStatus}"></span></p>
+                    <p><b>Назначил задачу:</b> <span th:if="${task.manager != null}"
+                                                     th:text="${task.manager.firstName + ' ' + task.manager.surname}"></span>
+                    </p>
+                    <p><b>Исполнитель задачи: </b><span th:if="${task.worker != null}"
+                                                        th:text="${task.worker.firstName + ' ' + task.worker.surname}"></span>
+                    </p>
+                    <p><b>Дополнительная информация: </b><span th:text="${task.extraInfo}"></span></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.3.0/mdb.min.js"></script>
+<!-- jQuery + Bootstrap -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script
+        src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+
 </body>
+
 </html>

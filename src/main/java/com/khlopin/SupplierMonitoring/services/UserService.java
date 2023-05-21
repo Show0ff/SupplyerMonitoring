@@ -8,10 +8,18 @@ import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
-import java.util.Optional;
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -19,7 +27,7 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-
+    private static final String uploadDirectory = System.getProperty("user.dir") + "/uploads";
     private static final Logger log = LogManager.getLogger(UserService.class);
 
     public boolean createUser(User user) {
@@ -94,6 +102,30 @@ public class UserService {
             }
         }
     }
+
+
+
+    public void uploadAvatar(MultipartFile file, User user) {
+        try {
+            Path dirPath = Paths.get(uploadDirectory);
+            if (!Files.exists(dirPath)) {
+                Files.createDirectories(dirPath);
+            }
+            if (user.getAvatarPath() != null) {
+                Path previousFilePath = dirPath.resolve(user.getAvatarPath().substring(9));
+                Files.deleteIfExists(previousFilePath);
+            }
+
+            Path filePath = dirPath.resolve(Objects.requireNonNull(file.getOriginalFilename()));
+            Files.write(filePath, file.getBytes());
+
+            user.setAvatarPath("uploads/" + file.getOriginalFilename());
+            userRepository.save(user);
+        } catch (IOException e) {
+            log.error("Error during saving file", e);
+        }
+    }
+
 
 
 }
