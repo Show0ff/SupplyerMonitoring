@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>Create Task</title>
+  <title>Создание задачи</title>
   <base href="/" />
   <!-- Font Awesome -->
   <link
@@ -25,6 +25,7 @@
 </head>
 <body>
 <div th:replace="~{fragments/header :: header}"></div>
+<div class="container">
 <hr class="hr"/>
 <div style="text-align: center">
   <h1>Управление задачами</h1>
@@ -71,12 +72,11 @@
 
   <button class="btn btn-primary shadow-1" type="submit">Создать задачу</button>
 </form>
-
+</div>
 <script
         type="text/javascript"
         src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.3.0/mdb.min.js"
 ></script>
-<!-- jQuery and jQuery UI scripts -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 <script>

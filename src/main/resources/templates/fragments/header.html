@@ -47,17 +47,16 @@
                     <li class="nav-item">
                         <a class="nav-link text-light" th:href="@{/profile}">Профиль</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-light" th:href="@{/manage-suppliers}">Управление поставщиками</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-light" th:href="@{/manage-projects}">Управление проектами</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-light" th:href="@{/admin/users}">Управление пользователями</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-light" th:href="@{/departments}">Управление отделами</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
+                            Управление
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" th:href="@{/manage-suppliers}">Управление поставщиками</a>
+                            <a class="dropdown-item" th:href="@{/manage-projects}">Управление проектами</a>
+                            <a class="dropdown-item" th:href="@{/admin/users}">Управление пользователями</a>
+                            <a class="dropdown-item" th:href="@{/departments}">Управление отделами</a>
+                        </div>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-light" th:href="@{/project-board}">Доска с задачами</a>
@@ -66,7 +65,7 @@
                         <a class="nav-link text-light" th:href="@{/customer-menu}">Меню заказчика</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-light" th:href="@{/customerMenu}">Файлообменник</a>
+                        <a class="nav-link text-light" th:href="@{/files}">Файлообменник</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-light" th:href="@{/logout}">Выйти</a>
