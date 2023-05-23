@@ -3,7 +3,9 @@ package com.khlopin.SupplierMonitoring.controllers;
 import com.khlopin.SupplierMonitoring.entity.Project;
 import com.khlopin.SupplierMonitoring.entity.User;
 import com.khlopin.SupplierMonitoring.services.ProjectService;
+import com.khlopin.SupplierMonitoring.services.UserService;
 import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,15 +18,17 @@ import java.util.List;
 import java.util.Objects;
 
 @Controller
+@RequiredArgsConstructor
 public class CustomerMenuController {
-    @Autowired
-    private ProjectService projectService;
+
+    private final ProjectService projectService;
+    private final UserService userService;
 
     @GetMapping("/customer-menu")
     public String showCustomerMenu(Model model, HttpSession httpSession) {
         List<Project> projects = projectService.getAllProjects();
         model.addAttribute("projects", projects);
-        User user = (User) httpSession.getAttribute("user");
+        User user = userService.getUserById((Long) httpSession.getAttribute("userId"));
         model.addAttribute("user", user);
         int countApproveVotes = countApproveVotes(user.getProject().getCustomers());
         model.addAttribute("approveVotes", countApproveVotes);
@@ -44,7 +48,7 @@ public class CustomerMenuController {
             List<User> customers = project.getCustomers();
             // Здесь предполагается, что текущий пользователь - заказчик проекта
 
-            User currentUser = (User) httpSession.getAttribute("user");
+            User currentUser = userService.getUserById((Long) httpSession.getAttribute("userId"));
             currentUser.setExtensionApproval(true); // Установить флаг одобрения для текущего пользователя
             if (allCustomersVoted(customers)) {
                 int approveCount = countApproveVotes(customers);

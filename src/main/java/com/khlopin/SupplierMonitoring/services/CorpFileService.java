@@ -77,18 +77,14 @@ public class CorpFileService {
 
 
     public List<CorpFile> getFilesAccessibleByUser(User user) {
-        List<CorpFile> files = new ArrayList<>();
 
-        // 1. Get files accessible to user directly
-        files.addAll(corpFileRepository.findByRecipientsContains(user));
+        List<CorpFile> files = new ArrayList<>(corpFileRepository.findByRecipientsContains(user));
 
-        // 2. Get files accessible via user's department
         Department userDepartment = user.getDepartment();
         if (userDepartment != null) {
             files.addAll(corpFileRepository.findByDepartmentRecipientsContains(userDepartment));
         }
 
-        // 3. Get files accessible via user's projects
         Project userProject = user.getProject();
         if (userProject != null) {
             files.addAll(corpFileRepository.findByProjectRecipientsContains(userProject));

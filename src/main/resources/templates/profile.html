@@ -29,7 +29,7 @@
                 <p><b>ФИО: </b><span
                         th:text="${user.firstName + ' ' + user.surname + ' ' + user.patronymic}"></span></p>
                 <p><b>Роль: </b><span th:text="${user.role}"></span></p>
-                <p><b>Отдел: </b><span th:text="${user.department}"></span></p>
+                <p><b>Отдел: </b><span th:if="${user.department != null}" th:text="${user.department.name}"></span></p>
             </div>
 
             <h4>Список моих задач:</h4>

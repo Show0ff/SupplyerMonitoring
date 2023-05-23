@@ -58,8 +58,8 @@ public class ProjectBoardController {
 
 
     @PostMapping("/create-task")
-    public String createTask(@ModelAttribute Task newTask, @RequestParam Long projectId, @RequestParam Long worker, HttpSession session) {
-        User user = (User) session.getAttribute("user");
+    public String createTask(@ModelAttribute Task newTask, @RequestParam Long projectId, @RequestParam Long worker, HttpSession httpSession) {
+        User user = userService.getUserById((Long) httpSession.getAttribute("userId"));
         Project project = projectService.getProjectById(projectId);
         User selectedWorker = userService.getUserById(worker);
         if (selectedWorker == null) {

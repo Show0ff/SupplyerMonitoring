@@ -99,7 +99,6 @@ public class ProjectController {
     public String submitExtension(@RequestParam Long projectId, @RequestParam Integer extensionDays) {
         Project project = projectService.getProjectById(projectId);
         if (project != null && !project.isExtensionRequested()) {
-            // Обновите дату сдачи проекта, добавив указанное количество дней
             LocalDate newDueDate = project.getProjectDueDate().plusDays(extensionDays);
             project.setProjectDueDate(newDueDate);
             project.setExtensionRequested(true);

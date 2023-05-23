@@ -51,7 +51,7 @@ public class User {
     @Column(name = "extension_vote_date")
     private LocalDate extensionVoteDate;
 
-    @Column(name = "access", nullable = false)
+    @Column(name = "access")
     private Long accessTelegramBot = 0L;
 
     @Column(name = "avatarPath")

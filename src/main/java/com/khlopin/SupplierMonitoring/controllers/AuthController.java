@@ -46,7 +46,7 @@ public class AuthController {
     public String loginUser(@RequestParam String userName, @RequestParam String password, Model model, HttpSession session) {
         Optional<User> user = userService.authUser(userName, password);
         if (user.isPresent()) {
-            session.setAttribute("user", user.get());
+            session.setAttribute("userId", user.get().getId());
             return "redirect:/profile";
         } else {
             model.addAttribute("error", "Invalid credentials!");
@@ -56,7 +56,7 @@ public class AuthController {
 
     @GetMapping("/profile")
     public String showProfile(HttpSession session, Model model) {
-        User currentUser = (User) session.getAttribute("user");
+        User currentUser = userService.getUserById((Long) session.getAttribute("userId"));
         if (currentUser == null) {
             return "redirect:/";
         }
@@ -67,7 +67,7 @@ public class AuthController {
 
     @GetMapping("/logout")
     public String logoutUser(HttpSession session) {
-        session.removeAttribute("user");
+        session.removeAttribute("userId");
         return "redirect:/";
     }
 

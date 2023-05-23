@@ -48,6 +48,4 @@ public class Project {
 
     @Column(name = "extension_days")
     private Integer extensionDays;
-
-
 }

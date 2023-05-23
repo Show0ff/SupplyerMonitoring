@@ -3,6 +3,7 @@ package com.khlopin.SupplierMonitoring.controllers;
 import com.khlopin.SupplierMonitoring.entity.CorpFile;
 import com.khlopin.SupplierMonitoring.entity.User;
 import com.khlopin.SupplierMonitoring.services.CorpFileService;
+import com.khlopin.SupplierMonitoring.services.UserService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
@@ -32,6 +33,7 @@ import java.util.List;
 public class CorpFileController {
 
     private final CorpFileService corpFileService;
+    private final UserService userService;
 
     @PostMapping("/upload")
     public String uploadFile(@RequestParam("file") MultipartFile file,
@@ -39,7 +41,7 @@ public class CorpFileController {
                              @RequestParam("departments") List<Long> departments,
                              @RequestParam("projects") List<Long> projects,
                              Model model, HttpSession httpSession) {
-        User uploader = (User) httpSession.getAttribute("user");
+        User uploader = userService.getUserById((Long) httpSession.getAttribute("userId"));
         CorpFile corpFile = corpFileService.uploadFile(uploader, file, recipients, departments, projects);
 
         model.addAttribute("file", corpFile);
@@ -48,7 +50,7 @@ public class CorpFileController {
 
     @GetMapping("/files")
     public String listFiles(Model model, HttpSession httpSession) {
-        User user = (User) httpSession.getAttribute("user");
+        User user = userService.getUserById((Long) httpSession.getAttribute("userId"));
         List<CorpFile> files = corpFileService.getFilesAccessibleByUser(user);
 
         model.addAttribute("currentUser", user);
@@ -88,7 +90,4 @@ public class CorpFileController {
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + encodedFileName + "\"")
                 .body(resource);
     }
-
-
-
 }
