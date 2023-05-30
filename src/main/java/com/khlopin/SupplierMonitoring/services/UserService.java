@@ -8,14 +8,10 @@ import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -50,7 +46,7 @@ public class UserService {
                 return existingUser;
             }
         }
-        return null;
+        return Optional.empty();
     }
 
     public List<User> getAllUsers() {
@@ -72,6 +68,9 @@ public class UserService {
         if (existingUser.isPresent()) {
             User user = existingUser.get();
             user.setLogin(updatedUser.getLogin());
+            user.setFirstName(updatedUser.getFirstName());
+            user.setSurname(updatedUser.getSurname());
+            user.setPatronymic(updatedUser.getPatronymic());
             user.setPassword(updatedUser.getPassword());
             user.setRole(updatedUser.getRole());
             log.info("User with id " + id + " was updated");
@@ -127,5 +126,7 @@ public class UserService {
     }
 
 
-
+    public User findByLogin(String username) {
+    return userRepository.findUserByLogin(username).orElse(null);
+    }
 }

@@ -9,7 +9,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.context.annotation.SessionScope;
 
 import java.util.Optional;
 
@@ -18,23 +17,6 @@ import java.util.Optional;
 public class AuthController {
     private final UserService userService;
 
-//    @GetMapping("/register")
-//    public String showRegistrationForm(Model model) {
-//        model.addAttribute("user", new User());
-//        return "register";
-//    }
-//
-//    @PostMapping("/register")
-//    public String registerUser(User user, Model model) {
-//        boolean isRegistered = userService.createUser(user);
-//        if (isRegistered) {
-//            model.addAttribute("message", "User registered successfully!");
-//            return "redirect:/";
-//        } else {
-//            model.addAttribute("error", "User already exists!");
-//            return "register";
-//        }
-//    }
 
     @GetMapping("/")
     public String showLoginForm() {
@@ -49,7 +31,7 @@ public class AuthController {
             session.setAttribute("userId", user.get().getId());
             return "redirect:/profile";
         } else {
-            model.addAttribute("error", "Invalid credentials!");
+            model.addAttribute("error", "Неверный логин или пароль");
             return "/";
         }
     }
@@ -64,6 +46,8 @@ public class AuthController {
         model.addAttribute("user", currentUser);
         return "profile";
     }
+
+
 
     @GetMapping("/logout")
     public String logoutUser(HttpSession session) {

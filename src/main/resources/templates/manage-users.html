@@ -100,7 +100,12 @@
                                 <p>Отчество: <span th:text="${user.patronymic}"></span></p>
                                 <p>Отдел: <span th:if="${user.department} != null" th:text="${user.department.name}"></span></p>
                                 <p>Проект: <span th:if="${user.project} != null" th:text="${user.project.projectName}"></span></p>
-                                <p>Список задач: <span th:each="task : ${user.manageTasks}" th:text="${'Задача: ' + task.text + ', '}"></span></p>
+                                <p>Список задач:
+                                    <br>
+                                    <span th:each="task : ${user.manageTasks}" th:text="${'Задача: ' + task.text}" style="display: block;"></span>
+                                </p>
+
+
                             </div>
 
                             <div class="modal-footer">

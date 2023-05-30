@@ -181,7 +181,7 @@
                                 <p><b>Список заказчиков:</b></p>
                                 <ul>
                                     <li th:each="customer : ${project.customers}">
-                                        <span th:text="${customer.firstName} + ' ' + ${customer.surname}"></span>
+                                        <span th:text="${customer.firstName} + ' ' + ${customer.patronymic} + ' ' + ${customer.surname}"></span>
                                     </li>
                                 </ul>
                                 <p><b>Список поставщиков:</b></p>
