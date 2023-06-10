@@ -6,6 +6,8 @@ import com.khlopin.SupplierMonitoring.services.CorpFileService;
 import com.khlopin.SupplierMonitoring.services.UserService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
@@ -35,6 +37,8 @@ public class CorpFileController {
     private final CorpFileService corpFileService;
     private final UserService userService;
 
+    private static final Logger log = LogManager.getLogger(CorpFileController.class);
+
     @PostMapping("/upload")
     public String uploadFile(@RequestParam("file") MultipartFile file,
                              @RequestParam("recipients") List<Long> recipients,
@@ -45,7 +49,8 @@ public class CorpFileController {
         CorpFile corpFile = corpFileService.uploadFile(uploader, file, recipients, departments, projects);
 
         model.addAttribute("file", corpFile);
-        return "file-hosting";
+        log.info("Файл " + corpFile.getName() + " был загружен ");
+        return "redirect:files";
     }
 
     @GetMapping("/files")

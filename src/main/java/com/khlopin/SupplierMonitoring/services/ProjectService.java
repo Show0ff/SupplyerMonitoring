@@ -17,13 +17,17 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class ProjectService {
-    @Autowired
     private ProjectRepository projectRepository;
-    @Autowired
     private UserRepository userRepository;
-    @Autowired
     private TaskRepository taskRepository;
     private static final Logger log = LogManager.getLogger(ProjectService.class);
+
+    @Autowired
+    public ProjectService(ProjectRepository projectRepository, UserRepository userRepository, TaskRepository taskRepository) {
+        this.projectRepository = projectRepository;
+        this.userRepository = userRepository;
+        this.taskRepository = taskRepository;
+    }
 
 
     public void createProject(Project project) {

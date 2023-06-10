@@ -7,6 +7,8 @@ import com.khlopin.SupplierMonitoring.services.UserService;
 import com.khlopin.SupplierMonitoring.services.repositories.DepartmentRepository;
 import com.khlopin.SupplierMonitoring.services.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,11 +22,18 @@ public class DepartmentController {
     private final DepartmentService departmentService;
     private final UserService userService;
 
-    @Autowired
     private DepartmentRepository departmentRepository;
 
-    @Autowired
     private UserRepository userRepository;
+    private static final Logger log = LogManager.getLogger(DepartmentController.class);
+
+    @Autowired
+    public DepartmentController(DepartmentRepository departmentRepository, UserRepository userRepository, DepartmentService departmentService, UserService userService) {
+        this.departmentRepository = departmentRepository;
+        this.userRepository = userRepository;
+        this.departmentService = departmentService;
+        this.userService = userService;
+    }
 
     @GetMapping("/departments")
     public String showDepartments(Model model) {
@@ -38,6 +47,7 @@ public class DepartmentController {
         Department department = new Department();
         department.setName(name);
         departmentService.createDepartment(department);
+        log.info("Департамент " + department.getName() + " был создан");
         return "redirect:/departments";
     }
 
@@ -50,8 +60,10 @@ public class DepartmentController {
             if (action.equals("add")) {
                 department.getEmployees().add(user);
                 user.setDepartment(department);
+                log.info("Пользователь " + user.getLogin() + " был добавлен в отдел " + department);
             } else if (action.equals("remove")) {
                 department.getEmployees().remove(user);
+                log.info("Пользователь " + user.getLogin() + " был удален из отдела " + department);
                 user.setDepartment(null);
             }
             departmentRepository.save(department);

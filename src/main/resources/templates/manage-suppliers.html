@@ -77,7 +77,7 @@
             <td th:text="${supplier.comment}"></td>
             <td>
                 <form th:action="@{/manage-suppliers/delete/{id}(id=${supplier.id})}" method="post">
-                    <button type="submit" class="btn btn-danger">Удалить</button>
+                    <button type="submit" class="btn btn-danger">Удалить (деактивирована)</button>
                 </form>
             </td>
         </tr>

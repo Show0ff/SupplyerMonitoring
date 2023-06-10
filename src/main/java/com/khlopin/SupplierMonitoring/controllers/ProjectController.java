@@ -7,7 +7,6 @@ import com.khlopin.SupplierMonitoring.entity.User;
 import com.khlopin.SupplierMonitoring.services.ProjectService;
 import com.khlopin.SupplierMonitoring.services.SupplierService;
 import com.khlopin.SupplierMonitoring.services.UserService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,14 +19,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-@RequiredArgsConstructor
 public class ProjectController {
+    private final ProjectService projectService;
+    private final UserService userService;
+    private final SupplierService supplierService;
+
     @Autowired
-    private ProjectService projectService;
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private SupplierService supplierService;
+    public ProjectController(ProjectService projectService, UserService userService, SupplierService supplierService) {
+        this.projectService = projectService;
+        this.userService = userService;
+        this.supplierService = supplierService;
+    }
 
 
     @GetMapping("/manage-projects")

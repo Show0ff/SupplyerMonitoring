@@ -28,13 +28,13 @@ public class TaskService {
     }
 
 
-    public Task createTask(Task task, User manager, Project project) {
+    public void createTask(Task task, User manager, Project project) {
         User managedUser = userRepository.findById(manager.getId()).orElseThrow(() -> new IllegalArgumentException("User not found"));
         task.setManager(managedUser);
         task.setProject(project);
         task.setNeedToFinishTaskUntil(task.getNeedToFinishTaskUntil());  // установите дату выполнения
         managedUser.getManageTasks().add(task);
-        return taskRepository.save(task);
+        taskRepository.save(task);
     }
 
 

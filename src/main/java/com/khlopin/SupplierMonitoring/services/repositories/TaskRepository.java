@@ -1,6 +1,6 @@
 package com.khlopin.SupplierMonitoring.services.repositories;
 
-import com.khlopin.SupplierMonitoring.entity.Project;
+
 import com.khlopin.SupplierMonitoring.entity.Task;
 import com.khlopin.SupplierMonitoring.entity.TaskStatus;
 import jakarta.transaction.Transactional;
@@ -18,6 +18,5 @@ public interface TaskRepository extends CrudRepository<Task, Long> {
     void updateTaskStatus(@Param("taskId") Long taskId, @Param("status") TaskStatus status);
 
     List<Task> findByProjectId(Long projectId);
-    void deleteByProjectId(Long id);
-    void deleteAllByProject(Project project);
+
 }

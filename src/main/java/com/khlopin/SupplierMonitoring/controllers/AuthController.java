@@ -4,11 +4,14 @@ import com.khlopin.SupplierMonitoring.entity.User;
 import com.khlopin.SupplierMonitoring.services.UserService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Optional;
 
@@ -16,6 +19,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AuthController {
     private final UserService userService;
+
+    private static final Logger log = LogManager.getLogger(AuthController.class);
 
 
     @GetMapping("/")
@@ -25,16 +30,20 @@ public class AuthController {
     }
 
     @PostMapping("/")
-    public String loginUser(@RequestParam String userName, @RequestParam String password, Model model, HttpSession session) {
+    public String loginUser(@RequestParam String userName, @RequestParam String password, RedirectAttributes redirectAttributes, HttpSession session) {
         Optional<User> user = userService.authUser(userName, password);
         if (user.isPresent()) {
             session.setAttribute("userId", user.get().getId());
+            log.info("user has been auth " + user.get().getLogin());
             return "redirect:/profile";
         } else {
-            model.addAttribute("error", "Неверный логин или пароль");
-            return "/";
+            redirectAttributes.addFlashAttribute("authError", "Неверный логин или пароль");
+            return "redirect:/";
         }
     }
+
+
+
 
     @GetMapping("/profile")
     public String showProfile(HttpSession session, Model model) {
@@ -42,7 +51,6 @@ public class AuthController {
         if (currentUser == null) {
             return "redirect:/";
         }
-
         model.addAttribute("user", currentUser);
         return "profile";
     }
@@ -52,6 +60,7 @@ public class AuthController {
     @GetMapping("/logout")
     public String logoutUser(HttpSession session) {
         session.removeAttribute("userId");
+        log.info( "Пользователь с id "+ session.getAttribute("userId") + " log out");
         return "redirect:/";
     }
 

@@ -22,14 +22,14 @@ public class SupplierService {
 
     public void createSupplier(Supplier supplier) {
         supplierRepository.save(supplier);
-        log.info(supplier + " поставщик был создан");
+        log.info(supplier + " supplier was created");
     }
 
     public void deleteSupplier(Long id) {
         Optional<Supplier> supplier = supplierRepository.findById(id);
         if (supplier.isPresent()) {
         supplierRepository.deleteById(id); }
-        log.info(supplier + " поставщик был удалён");
+        log.info(supplier + " supplier was deleted");
 
     }
 
@@ -38,7 +38,7 @@ public class SupplierService {
         if (supplier.isPresent()) {
             return supplier.get();
        } else {
-            log.error(supplier + " поставщик не найден");
+            log.error(supplier + " supplier not found");
         }
         return null;
     }

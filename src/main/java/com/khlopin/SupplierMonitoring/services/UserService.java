@@ -4,7 +4,6 @@ package com.khlopin.SupplierMonitoring.services;
 import com.khlopin.SupplierMonitoring.entity.Role;
 import com.khlopin.SupplierMonitoring.entity.User;
 import com.khlopin.SupplierMonitoring.services.repositories.UserRepository;
-import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,25 +17,30 @@ import java.nio.file.Paths;
 import java.util.*;
 
 @Service
-@RequiredArgsConstructor
 public class UserService {
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     private static final String uploadDirectory = System.getProperty("user.dir") + "/uploads";
+
     private static final Logger log = LogManager.getLogger(UserService.class);
 
+    @Autowired
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
     public boolean createUser(User user) {
-        Optional<User> existingUser = userRepository.findUserByLogin(user.getLogin());
-        if (existingUser.isPresent()) {
+        if (userRepository.findUserByLogin(user.getLogin()).isPresent()) {
             return false;
         }
+
         user.setCorpId(createCorpID());
-        log.info("new user was saved" + user);
         userRepository.save(user);
+        log.info("New user was saved: " + user);
 
         return true;
     }
+
 
     public Optional<User> authUser(String login, String password) {
         Optional<User> existingUser = userRepository.findUserByLogin(login);
@@ -63,23 +67,38 @@ public class UserService {
         }
     }
 
-    public User updateUser(Long id, User updatedUser) {
-        Optional<User> existingUser = userRepository.findById(id);
-        if (existingUser.isPresent()) {
-            User user = existingUser.get();
-            user.setLogin(updatedUser.getLogin());
-            user.setFirstName(updatedUser.getFirstName());
-            user.setSurname(updatedUser.getSurname());
-            user.setPatronymic(updatedUser.getPatronymic());
-            user.setPassword(updatedUser.getPassword());
-            user.setRole(updatedUser.getRole());
+    public void updateUser(Long id, User updatedUser) {
+        Optional<User> existingUserOptional = userRepository.findById(id);
+
+        if (existingUserOptional.isPresent()) {
+            User existingUser = existingUserOptional.get();
+
+            if (updatedUser.getLogin() != null) {
+                existingUser.setLogin(updatedUser.getLogin());
+            }
+            if (updatedUser.getFirstName() != null) {
+                existingUser.setFirstName(updatedUser.getFirstName());
+            }
+            if (updatedUser.getSurname() != null) {
+                existingUser.setSurname(updatedUser.getSurname());
+            }
+            if (updatedUser.getPatronymic() != null) {
+                existingUser.setPatronymic(updatedUser.getPatronymic());
+            }
+            if (updatedUser.getPassword() != null) {
+                existingUser.setPassword(updatedUser.getPassword());
+            }
+            if (updatedUser.getRole() != null) {
+                existingUser.setRole(updatedUser.getRole());
+            }
+
             log.info("User with id " + id + " was updated");
-            return userRepository.save(user);
+            userRepository.save(existingUser);
         } else {
             log.error("User with id " + id + " not found");
-            return null;
         }
     }
+
 
     private Integer createCorpID() {
         int randomNumber = (int) (Math.random() * 1000000);
@@ -103,7 +122,6 @@ public class UserService {
     }
 
 
-
     public void uploadAvatar(MultipartFile file, User user) {
         try {
             Path dirPath = Paths.get(uploadDirectory);
@@ -125,8 +143,4 @@ public class UserService {
         }
     }
 
-
-    public User findByLogin(String username) {
-    return userRepository.findUserByLogin(username).orElse(null);
-    }
 }

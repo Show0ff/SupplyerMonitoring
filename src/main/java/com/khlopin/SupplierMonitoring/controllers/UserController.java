@@ -4,7 +4,6 @@ import com.khlopin.SupplierMonitoring.entity.Role;
 import com.khlopin.SupplierMonitoring.entity.User;
 import com.khlopin.SupplierMonitoring.services.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -13,8 +12,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/admin")
 @RequiredArgsConstructor
 public class UserController {
-@Autowired
-    private final UserService userService;
+private final UserService userService;
+
 
     @GetMapping("/users")
     public String showAllUsers(Model model) {
@@ -42,7 +41,7 @@ public class UserController {
         User user = userService.getUserById(userId);
 
         if(user == null) {
-            return "error-page";
+            return "error";
         }
 
         model.addAttribute("user", user);

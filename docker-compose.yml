@@ -5,7 +5,7 @@ services:
     environment:
       POSTGRES_DB: "postgres"
       POSTGRES_USER: "postgres"
-      POSTGRES_PASSWORD: "postgres"
+      POSTGRES_PASSWORD: "WeWillWin"
     ports:
       - 5433:5432
     healthcheck:
@@ -25,6 +25,6 @@ services:
       SERVER_PORT: 8080 # Порт
       DB_URL: "jdbc:postgresql://postgres:5432/postgres"
       DB_USERNAME: "postgres"
-      DB_PASSWORD: "postgres"
+      DB_PASSWORD: "WeWillWin"
     ports:
       - 8080:8080

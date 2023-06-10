@@ -5,7 +5,6 @@ import com.khlopin.SupplierMonitoring.entity.User;
 import com.khlopin.SupplierMonitoring.services.TaskService;
 import com.khlopin.SupplierMonitoring.services.UserService;
 import com.khlopin.SupplierMonitoring.services.repositories.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,13 +17,17 @@ import java.util.Optional;
 @Controller
 @RequestMapping("/user")
 public class UserPageController {
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private UserRepository userRepository;
+    private final UserService userService;
+    private final UserRepository userRepository;
 
-    @Autowired
-    private TaskService taskService;
+    private final TaskService taskService;
+
+    public UserPageController(UserService userService, UserRepository userRepository, TaskService taskService) {
+        this.userService = userService;
+        this.userRepository = userRepository;
+        this.taskService = taskService;
+    }
+
     @GetMapping("/{id}")
     public String showUserProfile(@PathVariable Long id, Model model) {
         Optional<User> byId = userRepository.findById(id);

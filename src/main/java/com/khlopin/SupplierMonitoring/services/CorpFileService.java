@@ -8,7 +8,7 @@ import com.khlopin.SupplierMonitoring.services.repositories.CorpFileRepository;
 import com.khlopin.SupplierMonitoring.services.repositories.DepartmentRepository;
 import com.khlopin.SupplierMonitoring.services.repositories.ProjectRepository;
 import com.khlopin.SupplierMonitoring.services.repositories.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,22 +20,26 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class CorpFileService {
 
-    @Autowired
-    private CorpFileRepository corpFileRepository;
-    @Autowired
+    private final CorpFileRepository corpFileRepository;
 
-    private UserRepository userRepository;
-    @Autowired
+    private final UserRepository userRepository;
 
-    private DepartmentRepository departmentRepository;
-    @Autowired
-    private ProjectRepository projectRepository;
+    private final DepartmentRepository departmentRepository;
+    private final ProjectRepository projectRepository;
 
     private final Path rootLocation = Paths.get("corpFiles");
+
+    public CorpFileService(CorpFileRepository corpFileRepository, UserRepository userRepository, DepartmentRepository departmentRepository, ProjectRepository projectRepository) {
+        this.corpFileRepository = corpFileRepository;
+        this.userRepository = userRepository;
+        this.departmentRepository = departmentRepository;
+        this.projectRepository = projectRepository;
+    }
 
     public CorpFile uploadFile(User uploader, MultipartFile file, List<Long> recipientIds, List<Long> departmentIds, List<Long> projectIds) {
         try {
@@ -51,7 +55,7 @@ public class CorpFileService {
                 throw new RuntimeException("Failed to store empty file " + file.getOriginalFilename());
             }
 
-            Files.copy(file.getInputStream(), this.rootLocation.resolve(file.getOriginalFilename()),
+            Files.copy(file.getInputStream(), this.rootLocation.resolve(Objects.requireNonNull(file.getOriginalFilename())),
                     StandardCopyOption.REPLACE_EXISTING);
         } catch (Exception e) {
             throw new RuntimeException("Failed to store file " + file.getOriginalFilename(), e);
