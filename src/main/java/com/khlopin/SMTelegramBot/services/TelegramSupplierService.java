@@ -3,17 +3,15 @@ package com.khlopin.SMTelegramBot.services;
 
 import com.khlopin.SupplierMonitoring.entity.Supplier;
 import com.khlopin.SupplierMonitoring.services.SupplierService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 
 @Service
+@RequiredArgsConstructor
 public class TelegramSupplierService {
     private final SupplierService supplierService;
-
-    public TelegramSupplierService(SupplierService supplierService) {
-        this.supplierService = supplierService;
-    }
 
     //Получение информации о конкретном поставщике по его названию
     public Supplier getSupplierForName(String key) {

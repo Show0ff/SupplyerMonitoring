@@ -3,7 +3,8 @@ package com.khlopin.SMTelegramBot.services;
 
 import com.khlopin.SMTelegramBot.config.BotConfig;
 import com.khlopin.SupplierMonitoring.entity.User;
-import lombok.extern.slf4j.Slf4j;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.commands.SetMyCommands;
@@ -24,12 +25,12 @@ import static com.khlopin.SMTelegramBot.constant.Constant.*;
 import static com.khlopin.SMTelegramBot.constant.LogsConstant.*;
 
 
-@Slf4j
 @Controller
 public class TelegramBot extends TelegramLongPollingBot {
     private final TelegramUserService userService;
     private final ViewInformation viewInformation;
     private final BotConfig config;
+    private static final Logger log = LogManager.getLogger(TelegramBot.class);
 
     public TelegramBot(BotConfig config, TelegramUserService userService, ViewInformation viewInformation) {
         this.config = config;

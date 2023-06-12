@@ -5,7 +5,7 @@ import com.khlopin.SupplierMonitoring.entity.Supplier;
 import com.khlopin.SupplierMonitoring.entity.Task;
 import com.khlopin.SupplierMonitoring.services.SupplierService;
 import com.khlopin.SupplierMonitoring.services.TaskService;
-import lombok.extern.slf4j.Slf4j;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
@@ -20,9 +20,8 @@ import static com.khlopin.SMTelegramBot.constant.Constant.LIST_TASKS;
 import static com.khlopin.SMTelegramBot.constant.ConstantMessage.*;
 
 
-@Slf4j
 @Controller
-
+@RequiredArgsConstructor
 public class ViewInformation {
     private final TelegramSupplierService telegramSupplierService;
     private final TelegramUserService telegramUserService;
@@ -31,13 +30,6 @@ public class ViewInformation {
     private final SupplierService supplierService;
     private final TaskService taskService;
 
-    public ViewInformation(TelegramSupplierService telegramSupplierService, TelegramUserService telegramUserService, TelegramTaskService telegramTaskService, SupplierService supplierService, TaskService taskService) {
-        this.telegramSupplierService = telegramSupplierService;
-        this.telegramUserService = telegramUserService;
-        this.telegramTaskService = telegramTaskService;
-        this.supplierService = supplierService;
-        this.taskService = taskService;
-    }
 
     //Проверка Пользователя на разрешение к информации
     public SendMessage userAccessForInformation(long chatId, String nameClass) {

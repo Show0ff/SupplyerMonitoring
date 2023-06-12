@@ -7,7 +7,6 @@ import com.khlopin.SupplierMonitoring.services.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,17 +16,11 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class ProjectService {
-    private ProjectRepository projectRepository;
-    private UserRepository userRepository;
-    private TaskRepository taskRepository;
+    private final ProjectRepository projectRepository;
+    private final UserRepository userRepository;
+    private final TaskRepository taskRepository;
     private static final Logger log = LogManager.getLogger(ProjectService.class);
 
-    @Autowired
-    public ProjectService(ProjectRepository projectRepository, UserRepository userRepository, TaskRepository taskRepository) {
-        this.projectRepository = projectRepository;
-        this.userRepository = userRepository;
-        this.taskRepository = taskRepository;
-    }
 
 
     public void createProject(Project project) {

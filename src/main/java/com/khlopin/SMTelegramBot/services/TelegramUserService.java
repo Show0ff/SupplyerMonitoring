@@ -4,6 +4,7 @@ package com.khlopin.SMTelegramBot.services;
 import com.khlopin.SupplierMonitoring.entity.User;
 import com.khlopin.SupplierMonitoring.services.UserService;
 import com.khlopin.SupplierMonitoring.services.repositories.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -12,17 +13,12 @@ import java.util.List;
 import java.util.Set;
 
 @Service
+@RequiredArgsConstructor
 public class TelegramUserService {
 
     private final UserService userService;
     private final UserRepository userRepository;
 
-
-
-    public TelegramUserService(UserService userService, UserRepository userRepository) {
-        this.userService = userService;
-        this.userRepository = userRepository;
-    }
 
     //Создание списка всех Пользователей
     public List<User> getAllUsers() {

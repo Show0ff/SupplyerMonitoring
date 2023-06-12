@@ -34,15 +34,12 @@ public class AuthController {
         Optional<User> user = userService.authUser(userName, password);
         if (user.isPresent()) {
             session.setAttribute("userId", user.get().getId());
-            log.info("user has been auth " + user.get().getLogin());
             return "redirect:/profile";
         } else {
             redirectAttributes.addFlashAttribute("authError", "Неверный логин или пароль");
             return "redirect:/";
         }
     }
-
-
 
 
     @GetMapping("/profile")
@@ -56,11 +53,10 @@ public class AuthController {
     }
 
 
-
     @GetMapping("/logout")
     public String logoutUser(HttpSession session) {
+        log.info("Пользователь с id " + session.getAttribute("userId") + " log out");
         session.removeAttribute("userId");
-        log.info( "Пользователь с id "+ session.getAttribute("userId") + " log out");
         return "redirect:/";
     }
 

@@ -4,9 +4,9 @@ package com.khlopin.SupplierMonitoring.services;
 import com.khlopin.SupplierMonitoring.entity.Role;
 import com.khlopin.SupplierMonitoring.entity.User;
 import com.khlopin.SupplierMonitoring.services.repositories.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -17,6 +17,7 @@ import java.nio.file.Paths;
 import java.util.*;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
 
@@ -24,10 +25,6 @@ public class UserService {
 
     private static final Logger log = LogManager.getLogger(UserService.class);
 
-    @Autowired
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
 
     public boolean createUser(User user) {
         if (userRepository.findUserByLogin(user.getLogin()).isPresent()) {
@@ -111,6 +108,7 @@ public class UserService {
             boolean success = createUser(User.builder()
                     .firstName("Михаил")
                     .surname("Хлопин")
+                    .accessTelegramBot(0L)
                     .patronymic("Валерьевич")
                     .login("Show0ff")
                     .password("AdminPassword123456")

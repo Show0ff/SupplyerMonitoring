@@ -2,6 +2,7 @@ package com.khlopin.SupplierMonitoring.services;
 
 import com.khlopin.SupplierMonitoring.entity.Project;
 import com.khlopin.SupplierMonitoring.entity.User;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -9,14 +10,9 @@ import java.util.List;
 import java.util.Objects;
 
 @Service
+@RequiredArgsConstructor
 public class VotingService {
-
     private final ProjectService projectService;
-
-    public VotingService(ProjectService projectService) {
-        this.projectService = projectService;
-    }
-
 
     public boolean allCustomersVoted(List<User> customers) {
         for (User customer : customers) {
