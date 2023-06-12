@@ -1,8 +1,10 @@
 package com.khlopin.SupplierMonitoring.services;
 
 
+import com.khlopin.SupplierMonitoring.entity.Department;
 import com.khlopin.SupplierMonitoring.entity.Role;
 import com.khlopin.SupplierMonitoring.entity.User;
+import com.khlopin.SupplierMonitoring.services.repositories.DepartmentRepository;
 import com.khlopin.SupplierMonitoring.services.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
@@ -20,6 +22,8 @@ import java.util.*;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+
+    private final DepartmentRepository departmentRepository;
 
     private static final String uploadDirectory = System.getProperty("user.dir") + "/uploads";
 
@@ -138,6 +142,22 @@ public class UserService {
             userRepository.save(user);
         } catch (IOException e) {
             log.error("Error during saving file", e);
+        }
+    }
+
+    public void addOrRemoveUserFromDepartment(String action, User user, Department department) {
+        if (user != null && department != null) {
+            if (action.equals("add")) {
+                department.getEmployees().add(user);
+                user.setDepartment(department);
+                log.info("Пользователь " + user.getLogin() + " был добавлен в отдел " + department);
+            } else if (action.equals("remove")) {
+                department.getEmployees().remove(user);
+                log.info("Пользователь " + user.getLogin() + " был удален из отдела " + department);
+                user.setDepartment(null);
+            }
+            departmentRepository.save(department);
+            userRepository.save(user);
         }
     }
 

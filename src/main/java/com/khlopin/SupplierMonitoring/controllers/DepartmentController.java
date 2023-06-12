@@ -4,8 +4,6 @@ import com.khlopin.SupplierMonitoring.entity.Department;
 import com.khlopin.SupplierMonitoring.entity.User;
 import com.khlopin.SupplierMonitoring.services.DepartmentService;
 import com.khlopin.SupplierMonitoring.services.UserService;
-import com.khlopin.SupplierMonitoring.services.repositories.DepartmentRepository;
-import com.khlopin.SupplierMonitoring.services.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -21,9 +19,6 @@ public class DepartmentController {
     private final DepartmentService departmentService;
     private final UserService userService;
 
-    private final DepartmentRepository departmentRepository;
-
-    private final UserRepository userRepository;
     private static final Logger log = LogManager.getLogger(DepartmentController.class);
 
     @GetMapping("/departments")
@@ -45,22 +40,11 @@ public class DepartmentController {
     @PostMapping("/add-remove-user-from-department")
     public String addRemoveUserFromDepartment(@RequestParam("userId") Long userId, @RequestParam("departmentId") Long departmentId, @RequestParam("action") String action) {
         User user = userService.getUserById(userId);
-        Department department = departmentRepository.findById(departmentId).orElse(null);
-
-        if (user != null && department != null) {
-            if (action.equals("add")) {
-                department.getEmployees().add(user);
-                user.setDepartment(department);
-                log.info("Пользователь " + user.getLogin() + " был добавлен в отдел " + department);
-            } else if (action.equals("remove")) {
-                department.getEmployees().remove(user);
-                log.info("Пользователь " + user.getLogin() + " был удален из отдела " + department);
-                user.setDepartment(null);
-            }
-            departmentRepository.save(department);
-            userRepository.save(user);
-        }
+        Department department =  departmentService.getDepartmentById(departmentId);
+        userService.addOrRemoveUserFromDepartment(action, user, department);
         return "redirect:/departments";
     }
+
+
 }
 

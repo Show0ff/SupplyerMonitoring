@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -22,6 +23,16 @@ public class DepartmentService {
         departmentRepository.save(department);
         log.info(department + " was created");
 
+    }
+
+    public Department getDepartmentById(Long id) {
+        Optional<Department> department = departmentRepository.findById(id);
+        if (department.isPresent()) {
+            return department.get();
+        } else {
+            log.error(department + " not found");
+            return null;
+        }
     }
 
     public List<Department> getAllDepartments() {

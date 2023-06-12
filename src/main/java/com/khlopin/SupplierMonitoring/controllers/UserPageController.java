@@ -4,7 +4,6 @@ import com.khlopin.SupplierMonitoring.entity.Task;
 import com.khlopin.SupplierMonitoring.entity.User;
 import com.khlopin.SupplierMonitoring.services.TaskService;
 import com.khlopin.SupplierMonitoring.services.UserService;
-import com.khlopin.SupplierMonitoring.services.repositories.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -13,22 +12,18 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/user")
 @RequiredArgsConstructor
 public class UserPageController {
     private final UserService userService;
-    private final UserRepository userRepository;
-
     private final TaskService taskService;
 
     @GetMapping("/{id}")
     public String showUserProfile(@PathVariable Long id, Model model) {
-        Optional<User> byId = userRepository.findById(id);
-        if (byId.isPresent()) {
-            User user = byId.get();
+        User user = userService.getUserById(id);
+        if (user != null) {
             model.addAttribute("user", user);
 
             List<Task> tasks = user.getWorkTask();
@@ -48,9 +43,9 @@ public class UserPageController {
 
     @PostMapping("/{id}/avatar")
     public String uploadUserProfile(@PathVariable Long id, @RequestParam("file") MultipartFile file) {
-        Optional<User> byId = userRepository.findById(id);
-        if (byId.isPresent()) {
-            userService.uploadAvatar(file, byId.get());
+        User user = userService.getUserById(id);
+        if (user != null) {
+            userService.uploadAvatar(file, user);
             return "redirect:/user/{id}";
         } else {
             System.out.println("User with ID " + id + " not found");
